@@ -1,6 +1,7 @@
 import { Box, Heading } from "@twilio-paste/core";
 import { TaskItem } from "../task-item/task-item";
 import { styled, css } from "@twilio-paste/styling-library";
+import type { TaskItemProps } from "../types/task-item-props";
 
 const CustomCard = styled.div(
   css({
@@ -16,39 +17,27 @@ const CustomCard = styled.div(
   })
 );
 
+// SerializeObject<UndefinedToOptional
+
 interface TaskListProps {
-  title: string;
+  taskItems: TaskItemProps[];
+  title?: string;
 }
 
-export const TaskList = ({ title }: TaskListProps) => {
-  const taskItems = [
-    {
-      title: "Pressure Wash",
-      date: "Mar 26",
-      token: ["Here at some point"],
-      status: "todo",
-    },
-    {
-      title: "Clean the Carpet",
-      date: "Apr 1",
-      token: ["Here at some point"],
-      status: "todo",
-    },
-  ];
-
+export const TaskList = ({ taskItems, title }: TaskListProps) => {
   return (
     <Box width={"100%"}>
       <CustomCard>
-        <Heading as="h3" variant="heading40">
+        <Heading as="h3" variant="heading50">
           {title}
         </Heading>
-        {taskItems.map(({ title, date, token, status }, index) => (
+        {taskItems.map(({ title, dueDate, labels, status, taskId }) => (
           <TaskItem
-            key={`takeItem-${index}`}
+            key={`takeItem-${taskId}`}
             title={title}
-            date={date}
-            token={token}
-            index={index}
+            dueDate={dueDate}
+            labels={labels}
+            taskId={taskId}
             status={status}
           />
         ))}

@@ -1,29 +1,21 @@
 import {
   Box,
-  Column,
   DisplayPill,
   DisplayPillGroup,
-  Grid,
   Heading,
+  Stack,
 } from "@twilio-paste/core";
-
-interface TaskItemProps {
-  title: string;
-  date: string;
-  token: string[];
-  index: number;
-  status: string;
-}
+import type { TaskItemProps } from "../types/task-item-props";
 
 export const TaskItem = ({
   title,
-  date,
-  token,
-  index,
+  dueDate,
+  labels,
+  taskId,
   status,
 }: TaskItemProps) => (
   <Box
-    key={`task-${index}`}
+    key={`task-${taskId}`}
     backgroundColor={"colorBackgroundBody"}
     color={"colorText"}
     marginBottom={"space40"}
@@ -33,16 +25,18 @@ export const TaskItem = ({
     }}
     _last={{ marginBottom: "space0" }}
   >
-    <Heading as="h2" variant="heading30">
-      {title}
-    </Heading>
-    <Grid gutter="space40">
-      <Column span={2}>{date}</Column>
-      <Column span={10}>
+    {title && (
+      <Heading as="h2" variant="heading30">
+        {title}
+      </Heading>
+    )}
+    <Stack as="div" orientation={"horizontal"} spacing="space40">
+      <Box>{dueDate}</Box>
+      <Box>
         <DisplayPillGroup aria-label="Task Item">
-          <DisplayPill>{token}</DisplayPill>
+          <DisplayPill>{labels}</DisplayPill>
         </DisplayPillGroup>
-      </Column>
-    </Grid>
+      </Box>
+    </Stack>
   </Box>
 );
