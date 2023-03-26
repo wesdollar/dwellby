@@ -1,6 +1,6 @@
 import { Box } from "@twilio-paste/core/box";
 import { HorizontalLogo } from "~/components/assets/logos/horizontal-logo";
-import { Spacer } from "../components/utilities/spacer";
+import { Spacer } from "../components/utilities/space/spacer";
 import { Column, Grid } from "@twilio-paste/core";
 import { TaskList } from "~/components/tasks/task-list/task-list";
 import type { Margin, Space } from "@twilio-paste/style-props";
