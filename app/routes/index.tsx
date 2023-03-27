@@ -7,14 +7,67 @@ import type { Space } from "@twilio-paste/style-props";
 import { UserProfileBox } from "~/components/profiles/user-profile-box/user-profile-box";
 import { CreateTasksButton } from "~/components/tasks/create-tasks-button/create-tasks-button";
 import { PageWrapper } from "~/components/utilities/page-wrapper/page-wrapper";
-import { db } from "~/utils/db.server";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { TaskItemProps } from "~/components/tasks/types/task-item-props";
 
 export const loader = async () => {
-  const taskItems = await db.taskItem.findMany({ include: { labels: true } });
-
-  console.log(JSON.stringify(taskItems, null, 2));
+  const taskItems: TaskItemProps[] = [
+    {
+      id: 1,
+      title: "Mow the Grass",
+      dueDate: "2023-04-12",
+      labels: [
+        {
+          id: 1,
+          name: "Yard",
+          createdAt: "2021-08-01",
+          updatedAt: "2021-08-01",
+        },
+      ],
+      statusId: 1,
+    },
+    {
+      id: 2,
+      title: "Pinestraw",
+      dueDate: "2023-04-03",
+      labels: [
+        {
+          id: 1,
+          name: "Yard",
+          createdAt: "2021-08-01",
+          updatedAt: "2021-08-01",
+        },
+        {
+          id: 1,
+          name: "Lowe's",
+          createdAt: "2021-08-01",
+          updatedAt: "2021-08-01",
+        },
+      ],
+      statusId: 2,
+    },
+    {
+      id: 3,
+      title: "Garage to Storage",
+      dueDate: "2023-04-01",
+      labels: [
+        {
+          id: 1,
+          name: "Garage",
+          createdAt: "2021-08-01",
+          updatedAt: "2021-08-01",
+        },
+        {
+          id: 2,
+          name: "Storage",
+          createdAt: "2021-08-01",
+          updatedAt: "2021-08-01",
+        },
+      ],
+      statusId: 1,
+    },
+  ];
 
   return json(taskItems);
 };
