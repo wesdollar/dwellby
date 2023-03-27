@@ -12,7 +12,7 @@ export const TaskItem = ({
   dueDate,
   labels,
   taskId,
-  status,
+  statusId,
 }: TaskItemProps) => (
   <Box
     key={`task-${taskId}`}
@@ -21,7 +21,7 @@ export const TaskItem = ({
     marginBottom={"space40"}
     padding={"space60"}
     style={{
-      borderLeft: `16px solid ${status === "todo" ? "#5817BD" : "red"}`,
+      borderLeft: `16px solid ${statusId === 1 ? "#5817BD" : "red"}`,
     }}
     _last={{ marginBottom: "space0" }}
   >
@@ -31,10 +31,18 @@ export const TaskItem = ({
       </Heading>
     )}
     <Stack as="div" orientation={"horizontal"} spacing="space40">
-      <Box>{dueDate}</Box>
+      <Box>
+        {new Date(dueDate).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        })}
+      </Box>
       <Box>
         <DisplayPillGroup aria-label="Task Item">
-          <DisplayPill>{labels}</DisplayPill>
+          {labels.map(({ name, id }) => (
+            <DisplayPill key={`labelPill-${id}`}>{name}</DisplayPill>
+          ))}
         </DisplayPillGroup>
       </Box>
     </Stack>

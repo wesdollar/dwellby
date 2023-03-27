@@ -5,10 +5,12 @@
     "build": "remix build",
     "dev": "remix dev",
     "start": "cross-env NODE_ENV=production netlify dev",
-    "typecheck": "tsc"
+    "typecheck": "tsc",
+    "db:sunset": "rm -f ./prisma/dev.db && prisma migrate dev --name init"
   },
   "dependencies": {
     "@netlify/functions": "^1.3.0",
+    "@prisma/client": "^4.11.0",
     "@remix-run/netlify": "^1.14.3",
     "@remix-run/node": "^1.14.3",
     "@remix-run/react": "^1.14.3",
@@ -25,10 +27,15 @@
     "@remix-run/serve": "^1.14.3",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.8",
+    "esbuild-register": "^3.4.2",
     "eslint": "^8.27.0",
+    "prisma": "^4.11.0",
     "typescript": "^4.8.4"
   },
   "engines": {
     "node": ">=14"
+  },
+  "prisma": {
+    "seed": "node --require esbuild-register prisma/seed.ts"
   }
 }

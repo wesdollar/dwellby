@@ -25,20 +25,22 @@ interface TaskListProps {
 }
 
 export const TaskList = ({ taskItems, title }: TaskListProps) => {
+  console.log(taskItems);
+
   return (
     <Box width={"100%"}>
       <CustomCard>
         <Heading as="h3" variant="heading50">
           {title}
         </Heading>
-        {taskItems.map(({ title, dueDate, labels, status, taskId }) => (
+        {taskItems.map(({ title, dueDate, labels, statusId, id }) => (
           <TaskItem
-            key={`takeItem-${taskId}`}
+            key={`takeItem-${id}`}
             title={title}
             dueDate={dueDate}
             labels={labels}
-            taskId={taskId}
-            status={status}
+            taskId={id}
+            statusId={statusId}
           />
         ))}
       </CustomCard>

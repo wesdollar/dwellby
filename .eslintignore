@@ -1,0 +1,6 @@
+.cache
+.netlify
+.vscode
+node_modules
+prisma/migrations
+public

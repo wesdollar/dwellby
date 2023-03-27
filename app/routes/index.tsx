@@ -7,9 +7,21 @@ import type { Space } from "@twilio-paste/style-props";
 import { UserProfileBox } from "~/components/profiles/user-profile-box/user-profile-box";
 import { CreateTasksButton } from "~/components/tasks/create-tasks-button/create-tasks-button";
 import { PageWrapper } from "~/components/utilities/page-wrapper/page-wrapper";
+import { db } from "~/utils/db.server";
+import { json } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+
+export const loader = async () => {
+  const taskItems = await db.taskItem.findMany({ include: { labels: true } });
+
+  console.log(JSON.stringify(taskItems, null, 2));
+
+  return json(taskItems);
+};
 
 export default function Index() {
   const layoutGridGutters = ["space10", "space30", "space60"] as Space;
+  const taskItems = useLoaderData<typeof loader>();
 
   return (
     <>
@@ -59,38 +71,7 @@ export default function Index() {
         <Box marginBottom={["space20", "space30", "space120"]}>
           <Grid gutter={layoutGridGutters}>
             <Column>
-              <TaskList
-                taskItems={[
-                  {
-                    title: "Pressure Wash",
-                    dueDate: "Mar 26",
-                    labels: ["Here at some point"],
-                    status: "todo",
-                    taskId: 0,
-                  },
-                  {
-                    title: "Clean the Carpet",
-                    dueDate: "Apr 1",
-                    labels: ["Here at some point"],
-                    status: "todo",
-                    taskId: 1,
-                  },
-                  {
-                    title: "Vacuum",
-                    dueDate: "Mar 26",
-                    labels: ["Here at some point"],
-                    status: "todo",
-                    taskId: 2,
-                  },
-                  {
-                    title: "Clean the Carpet",
-                    dueDate: "Apr 1",
-                    labels: ["Here at some point"],
-                    status: "todo",
-                    taskId: 3,
-                  },
-                ]}
-              />
+              <TaskList taskItems={taskItems} />
             </Column>
           </Grid>
         </Box>
