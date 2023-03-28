@@ -1,4 +1,4 @@
-import { Box, Button } from "@twilio-paste/core";
+import { Box, Button, FormActions } from "@twilio-paste/core";
 
 interface CreateTaskButtonProps {
   display?: string;
@@ -19,9 +19,7 @@ export const CreateTasksButton = ({
       alignItems={alignItems}
       justifyContent={justifyContent}
     >
-      <Button variant="primary" onClick={handleOnClick}>
-        Create Tasks
-      </Button>
+      <Button variant="primary">Create Tasks</Button>
     </Box>
   );
 };

@@ -12,12 +12,14 @@ interface InputWithLabelsProps {
   inputId: string;
   inputLabel: string;
   handleOnChange?: () => void;
+  value?: string;
 }
 
 export const InputWithLabels = ({
   inputId,
   inputLabel,
   handleOnChange = () => {},
+  value,
 }: InputWithLabelsProps) => {
   return (
     <Box marginBottom={formBoxPadding}>
@@ -29,6 +31,7 @@ export const InputWithLabels = ({
         name={inputId}
         type="text"
         onChange={handleOnChange}
+        value={value}
       />
     </Box>
   );

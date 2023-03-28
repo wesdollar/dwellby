@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { ActionArgs, MetaFunction } from "@remix-run/node";
 import { Theme } from "@twilio-paste/core/theme";
 import {
   Links,

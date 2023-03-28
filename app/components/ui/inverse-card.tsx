@@ -32,10 +32,12 @@ const CustomCard = styled.div(
 
     textarea: {
       backgroundColor: inverseBackground,
+      color: inverseTextColor,
     },
 
     select: {
       backgroundColor: inverseBackground,
+      color: inverseTextColor,
     },
   },
   variant({

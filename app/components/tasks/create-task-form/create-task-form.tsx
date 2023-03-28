@@ -1,5 +1,13 @@
 import type { FormEvent } from "react";
-import { Box, Label, Option, Select, TextArea } from "@twilio-paste/core";
+import {
+  Box,
+  Button,
+  FormActions,
+  Label,
+  Option,
+  Select,
+  TextArea,
+} from "@twilio-paste/core";
 import { InverseCard } from "~/components/ui/inverse-card";
 import { CreateTasksButton } from "../create-tasks-button/create-tasks-button";
 import type { Margin } from "@twilio-paste/style-props";
@@ -13,15 +21,8 @@ const formBoxPadding: Margin = [
   gutters.lgBreakpoint.md,
 ];
 
-interface CreateTaskFormProps {
-  handleOnClick: (event: FormEvent) => void;
-}
-
 export const CreateTaskForm = () => {
-  const handleOnClick = (event: FormEvent) => {
-    console.log("clicked");
-    console.log(event);
-  };
+  const taskNotesTextareaId = "task_notes";
 
   return (
     <Form method={"post"}>
@@ -34,19 +35,27 @@ export const CreateTaskForm = () => {
             <Label htmlFor="task_notes" required>
               Task Notes
             </Label>
-            <TextArea id="task_title" name="task_title" onChange={() => {}} />
+            <TextArea
+              id={taskNotesTextareaId}
+              name={taskNotesTextareaId}
+              onChange={() => {}}
+            />
           </Box>
           <Box marginBottom={formBoxPadding}>
-            <InputWithLabels inputId="task_labels" inputLabel={"Labels"} />
+            <InputWithLabels
+              inputId="task_labels"
+              inputLabel={"Labels"}
+              value="1"
+            />
           </Box>
           <Box marginBottom={formBoxPadding}>
-            <Label htmlFor="task_labels" required>
+            <Label htmlFor="task_effort" required>
               Lavel of Effort
             </Label>
-            <Select id="task_labels" name="task_labels">
-              <Option value="sm">Small</Option>
-              <Option value="md">Medium</Option>
-              <Option value="lg">Large</Option>
+            <Select id="task_effort" name="effortId">
+              <Option value="1">Small</Option>
+              <Option value="2">Medium</Option>
+              <Option value="3">Large</Option>
             </Select>
           </Box>
           <Box marginBottom={formBoxPadding}>
@@ -56,7 +65,11 @@ export const CreateTaskForm = () => {
             />
           </Box>
           <Box display={"flex"} justifyContent={"right"}>
-            <CreateTasksButton handleOnClick={() => handleOnClick} />
+            <FormActions>
+              <Button variant="primary" type="submit">
+                Create Tasks
+              </Button>
+            </FormActions>
           </Box>
         </InverseCard>
       </Box>

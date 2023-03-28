@@ -41,11 +41,31 @@ async function main() {
     },
   });
 
+  await db.effort.create({
+    data: {
+      name: "sm",
+    },
+  });
+
+  await db.effort.create({
+    data: {
+      name: "md",
+    },
+  });
+
+  await db.effort.create({
+    data: {
+      name: "lg",
+    },
+  });
+
   // TODO: type safety
   const tasks = [
     {
       title: "Take Out the Trash",
+      note: "The trash is overflowing.",
       dueDate: new Date("2023-04-01"),
+      estimatedCost: "2,430",
       status: {
         connect: {
           id: firstStatus.id,
@@ -54,10 +74,17 @@ async function main() {
       labels: {
         connect: [{ id: firstLabel.id }],
       },
+      effort: {
+        connect: {
+          id: 2,
+        },
+      },
     },
     {
       title: "Clean the House",
       dueDate: new Date("2023-04-01"),
+      note: "The house is a mess.",
+      estimatedCost: "2,431",
       status: {
         connect: {
           id: secondStatus.id,
@@ -66,10 +93,17 @@ async function main() {
       labels: {
         connect: [{ id: firstLabel.id }, { id: secondLabel.id }],
       },
+      effort: {
+        connect: {
+          id: 2,
+        },
+      },
     },
     {
       title: "Mow the Yard",
       dueDate: new Date("2023-04-20"),
+      note: "The grass is getting long.",
+      estimatedCost: "2,433",
       status: {
         connect: {
           id: firstStatus.id,
@@ -77,6 +111,11 @@ async function main() {
       },
       labels: {
         connect: [{ id: firstLabel.id }, { id: thirdLabel.id }],
+      },
+      effort: {
+        connect: {
+          id: 2,
+        },
       },
     },
   ];

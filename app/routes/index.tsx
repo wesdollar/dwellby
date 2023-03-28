@@ -8,12 +8,15 @@ import { UserProfileBox } from "~/components/profiles/user-profile-box/user-prof
 import { CreateTasksButton } from "~/components/tasks/create-tasks-button/create-tasks-button";
 import { PageWrapper } from "~/components/utilities/page-wrapper/page-wrapper";
 import { db } from "~/utils/db.server";
-import { ActionArgs, json } from "@remix-run/node";
+import { json } from "@remix-run/node";
+import type { ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
 import { gutters } from "~/constants/gutters";
 import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
-import { FormEvent } from "react";
+import type { FormEvent } from "react";
+import { CreateTaskFormDebug } from "~/components/playground/create-task-form-debug";
+import { PrismaClient, Prisma } from "@prisma/client";
 
 export const loader = async () => {
   const taskItems = await db.taskItem.findMany({ include: { labels: true } });
@@ -22,17 +25,46 @@ export const loader = async () => {
 };
 
 export const action = async ({ request }: ActionArgs) => {
-  const body = await request.formData();
+  const prisma = new PrismaClient();
+  let body;
 
-  console.log(body);
+  try {
+    body = await request.formData();
+  } catch (error) {
+    console.log(error);
+  }
+
+  let tasks = [] as any;
+
+  body?.forEach((value, key) => {
+    console.log(`${key}: ${value}`);
+    tasks.push({ [key]: value });
+  });
+
+  console.log(Object.assign({}, ...tasks));
+
+  const taskItem = await prisma.taskItem.create({
+    data: {
+      title: (body?.get("task_title") as string) || "Untitled Task",
+      note: (body?.get("task_notes") as string) || "No notes",
+      estimatedCost: (body?.get("estimated_cost") as string) || "0.00",
+      effortId: 1,
+      dueDate: new Date("2023-04-01"),
+      labels: {
+        create: [
+          {
+            name: "Test Label",
+          },
+        ],
+      },
+      statusId: 1,
+    },
+  });
+
+  return json(taskItem);
 };
 
 export default function Index() {
-  const handleOnClick = (event: FormEvent) => {
-    console.log("clicked");
-    console.log(event);
-  };
-
   const layoutGridGutters = ["space10", "space30", "space60"] as Space;
   const taskItems = useLoaderData<typeof loader>();
   const metricTiles = [
@@ -113,7 +145,7 @@ export default function Index() {
         >
           <Grid gutter={layoutGridGutters}>
             <Column span={4}>
-              <CreateTaskForm handleOnClick={handleOnClick} />
+              <CreateTaskForm />
             </Column>
             <Column span={4}>
               <TaskList taskItems={taskItems} />
