@@ -5,6 +5,7 @@ import {
   Heading,
   Stack,
 } from "@twilio-paste/core";
+import { colors } from "~/constants/colors";
 import type { TaskItemProps } from "../types/task-item-props";
 
 export const TaskItem = ({
@@ -16,12 +17,14 @@ export const TaskItem = ({
 }: TaskItemProps) => (
   <Box
     key={`task-${taskId}`}
-    backgroundColor={"colorBackgroundBody"}
-    color={"colorText"}
+    backgroundColor={colors.background.body}
+    color={colors.text.primaryText}
     marginBottom={"space40"}
     padding={"space60"}
     style={{
-      borderLeft: `16px solid ${statusId === 1 ? "#5817BD" : "red"}`,
+      borderLeft: `16px solid ${
+        statusId === 1 ? colors.brandPrimary : colors.border.error
+      }`,
     }}
     _last={{ marginBottom: "space0" }}
   >

@@ -1,7 +1,19 @@
 import { Box } from "@twilio-paste/core/box";
 import { HorizontalLogo } from "~/components/assets/logos/horizontal-logo";
 import { Spacer } from "../components/utilities/spacer/spacer";
-import { Column, Flex, Grid } from "@twilio-paste/core";
+import {
+  Column,
+  Flex,
+  Grid,
+  Heading,
+  Input,
+  Label,
+  Select,
+  Text,
+  TextArea,
+  Option,
+  Button,
+} from "@twilio-paste/core";
 import { TaskList } from "~/components/tasks/task-list/task-list";
 import type { Space } from "@twilio-paste/style-props";
 import { UserProfileBox } from "~/components/profiles/user-profile-box/user-profile-box";
@@ -10,11 +22,13 @@ import { PageWrapper } from "~/components/utilities/page-wrapper/page-wrapper";
 import { db } from "~/utils/db.server";
 import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
+import { InverseCard } from "~/components/ui/inverse-card";
+import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
+import { gutters } from "~/constants/gutters";
+import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
 
 export const loader = async () => {
   const taskItems = await db.taskItem.findMany({ include: { labels: true } });
-
-  console.log(JSON.stringify(taskItems, null, 2));
 
   return json(taskItems);
 };
@@ -22,13 +36,37 @@ export const loader = async () => {
 export default function Index() {
   const layoutGridGutters = ["space10", "space30", "space60"] as Space;
   const taskItems = useLoaderData<typeof loader>();
+  const metricTiles = [
+    {
+      title: "All Tasks",
+      variant: "brandPrimary",
+      count: 23,
+      id: 1,
+    },
+    {
+      title: "Past-Due Tasks",
+      variant: "error",
+      count: 2,
+      id: 2,
+    },
+    {
+      title: "Completed Tasks",
+      variant: "success",
+      count: 7,
+      id: 3,
+    },
+  ];
 
   return (
     <>
       <PageWrapper>
         <Box
-          marginTop={["space30", "space40", "space100"]}
-          marginBottom={"space80"}
+          marginTop={[
+            gutters.smBreakpoint.lg,
+            gutters.mdBreakpoint.md,
+            gutters.lgBreakpoint.lg,
+          ]}
+          marginBottom={gutters.utility.md}
         >
           <Grid gutter={layoutGridGutters}>
             <Column>
@@ -56,7 +94,6 @@ export default function Index() {
                     display={"flex"}
                     alignItems="center"
                     justifyContent={"right"}
-                    marginTop="space10"
                   />
                 </Flex>
               </Flex>
@@ -68,10 +105,32 @@ export default function Index() {
       <Spacer height={["10px", "20px", "0"]} />
 
       <PageWrapper>
-        <Box marginBottom={["space20", "space30", "space120"]}>
+        <Box
+          marginBottom={[
+            gutters.smBreakpoint.md,
+            gutters.mdBreakpoint.sm,
+            gutters.lgBreakpoint.xl,
+          ]}
+        >
           <Grid gutter={layoutGridGutters}>
-            <Column>
+            <Column span={4}>
+              <CreateTaskForm />
+            </Column>
+            <Column span={4}>
               <TaskList taskItems={taskItems} />
+            </Column>
+            <Column span={4}>
+              <Grid gutter={layoutGridGutters}>
+                {metricTiles.map(({ id, count, title, variant }) => (
+                  <Column key={id} span={6}>
+                    <DashboardTile
+                      count={count}
+                      title={title}
+                      variant={variant}
+                    />
+                  </Column>
+                ))}
+              </Grid>
             </Column>
           </Grid>
         </Box>

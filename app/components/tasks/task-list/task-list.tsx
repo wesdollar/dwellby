@@ -1,21 +1,7 @@
 import { Box, Heading } from "@twilio-paste/core";
+import { InverseCard } from "~/components/ui/inverse-card";
 import { TaskItem } from "../task-item/task-item";
-import { styled, css } from "@twilio-paste/styling-library";
 import type { TaskItemProps } from "../types/task-item-props";
-
-const CustomCard = styled.div(
-  css({
-    background: "white",
-    borderColor: "red",
-    borderRadius: "8px",
-    padding: "32px",
-    color: "black",
-
-    h3: {
-      color: "#121C2D",
-    },
-  })
-);
 
 // SerializeObject<UndefinedToOptional
 
@@ -25,11 +11,9 @@ interface TaskListProps {
 }
 
 export const TaskList = ({ taskItems, title }: TaskListProps) => {
-  console.log(taskItems);
-
   return (
     <Box width={"100%"}>
-      <CustomCard>
+      <InverseCard>
         <Heading as="h3" variant="heading50">
           {title}
         </Heading>
@@ -43,7 +27,7 @@ export const TaskList = ({ taskItems, title }: TaskListProps) => {
             statusId={statusId}
           />
         ))}
-      </CustomCard>
+      </InverseCard>
     </Box>
   );
 };
