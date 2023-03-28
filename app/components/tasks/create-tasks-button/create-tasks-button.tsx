@@ -4,14 +4,14 @@ interface CreateTaskButtonProps {
   display?: string;
   alignItems?: string;
   justifyContent?: string;
-  onClick?: () => void;
+  handleOnClick?: () => void;
 }
 
 export const CreateTasksButton = ({
   display = "flex",
   alignItems = "center",
   justifyContent = "left",
-  onClick = () => {},
+  handleOnClick = () => {},
 }: CreateTaskButtonProps) => {
   return (
     <Box
@@ -19,7 +19,9 @@ export const CreateTasksButton = ({
       alignItems={alignItems}
       justifyContent={justifyContent}
     >
-      <Button variant="primary">Create Tasks</Button>
+      <Button variant="primary" onClick={handleOnClick}>
+        Create Tasks
+      </Button>
     </Box>
   );
 };

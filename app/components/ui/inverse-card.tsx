@@ -27,6 +27,7 @@ const CustomCard = styled.div(
 
     input: {
       backgroundColor: inverseBackground,
+      color: inverseTextColor,
     },
 
     textarea: {

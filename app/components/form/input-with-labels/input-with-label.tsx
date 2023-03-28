@@ -11,20 +11,25 @@ const formBoxPadding: Margin = [
 interface InputWithLabelsProps {
   inputId: string;
   inputLabel: string;
-  handleChange?: () => void;
+  handleOnChange?: () => void;
 }
 
 export const InputWithLabels = ({
   inputId,
   inputLabel,
-  handleChange = () => {},
+  handleOnChange = () => {},
 }: InputWithLabelsProps) => {
   return (
     <Box marginBottom={formBoxPadding}>
       <Label htmlFor={inputId} required>
         {inputLabel}
       </Label>
-      <Input id={inputId} name={inputId} type="text" onChange={handleChange} />
+      <Input
+        id={inputId}
+        name={inputId}
+        type="text"
+        onChange={handleOnChange}
+      />
     </Box>
   );
 };

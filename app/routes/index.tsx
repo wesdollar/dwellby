@@ -1,31 +1,19 @@
 import { Box } from "@twilio-paste/core/box";
 import { HorizontalLogo } from "~/components/assets/logos/horizontal-logo";
 import { Spacer } from "../components/utilities/spacer/spacer";
-import {
-  Column,
-  Flex,
-  Grid,
-  Heading,
-  Input,
-  Label,
-  Select,
-  Text,
-  TextArea,
-  Option,
-  Button,
-} from "@twilio-paste/core";
+import { Column, Flex, Grid } from "@twilio-paste/core";
 import { TaskList } from "~/components/tasks/task-list/task-list";
 import type { Space } from "@twilio-paste/style-props";
 import { UserProfileBox } from "~/components/profiles/user-profile-box/user-profile-box";
 import { CreateTasksButton } from "~/components/tasks/create-tasks-button/create-tasks-button";
 import { PageWrapper } from "~/components/utilities/page-wrapper/page-wrapper";
 import { db } from "~/utils/db.server";
-import { json } from "@remix-run/node";
+import { ActionArgs, json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { InverseCard } from "~/components/ui/inverse-card";
 import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
 import { gutters } from "~/constants/gutters";
 import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
+import { FormEvent } from "react";
 
 export const loader = async () => {
   const taskItems = await db.taskItem.findMany({ include: { labels: true } });
@@ -33,7 +21,18 @@ export const loader = async () => {
   return json(taskItems);
 };
 
+export const action = async ({ request }: ActionArgs) => {
+  const body = await request.formData();
+
+  console.log(body);
+};
+
 export default function Index() {
+  const handleOnClick = (event: FormEvent) => {
+    console.log("clicked");
+    console.log(event);
+  };
+
   const layoutGridGutters = ["space10", "space30", "space60"] as Space;
   const taskItems = useLoaderData<typeof loader>();
   const metricTiles = [
@@ -114,7 +113,7 @@ export default function Index() {
         >
           <Grid gutter={layoutGridGutters}>
             <Column span={4}>
-              <CreateTaskForm />
+              <CreateTaskForm handleOnClick={handleOnClick} />
             </Column>
             <Column span={4}>
               <TaskList taskItems={taskItems} />
