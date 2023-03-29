@@ -2,10 +2,12 @@ import { Box } from "@twilio-paste/core";
 import type { FormPillStateReturn } from "@twilio-paste/core";
 import { FormPill as PasteFormPill } from "@twilio-paste/core";
 
+export type FormPillId = number;
+
 interface FormPillProps {
-  id: number;
+  id: FormPillId;
   pillState: FormPillStateReturn;
-  handleSetActiveToken: (id: number) => void;
+  handleSetActiveToken: (id: FormPillId) => void;
   activeToken: number;
   name: string;
 }

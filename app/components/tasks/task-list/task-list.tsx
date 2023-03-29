@@ -29,7 +29,7 @@ export const TaskList = ({ taskItems, title }: TaskListProps) => {
   ];
 
   const pillState = useFormPillState({
-    baseId: "test",
+    baseId: "take-list-tokens",
   });
 
   return (
@@ -46,7 +46,12 @@ export const TaskList = ({ taskItems, title }: TaskListProps) => {
             <FormPill
               key={`filterToken-${id}`}
               pillState={pillState}
-              handleSetActiveToken={setActiveToken}
+              // typings are in conflict
+              // this is brute force
+              handleSetActiveToken={(token) => {
+                console.log("setting active token:", token);
+                setActiveToken(parseInt(token.toString(), 10));
+              }}
               name={name}
               activeToken={activeToken}
               id={id}

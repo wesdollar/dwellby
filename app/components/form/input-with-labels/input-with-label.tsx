@@ -12,14 +12,40 @@ interface InputWithLabelsProps {
   inputId: string;
   inputLabel: string;
   handleOnChange?: () => void;
+  handleSetLables?: React.Dispatch<React.SetStateAction<string[]>>;
   value?: string;
+  labels?: string[];
 }
+
+/* thank you for the contribution GreatGrievance!! 230329 */
+interface PushLabelSelectionToState {
+  event: React.KeyboardEvent<HTMLInputElement>;
+  handleSetLables: React.Dispatch<React.SetStateAction<string[]>>;
+  inputLabel: string;
+  labels: string[];
+}
+
+const pushLabelSelectionToState = ({
+  event,
+  handleSetLables,
+  inputLabel,
+  labels,
+}: PushLabelSelectionToState): void => {
+  inputLabel = event.currentTarget.value;
+
+  console.log("hit", inputLabel);
+
+  if (handleSetLables && inputLabel) {
+    handleSetLables([...labels, inputLabel]);
+  }
+};
 
 export const InputWithLabels = ({
   inputId,
   inputLabel,
   handleOnChange = () => {},
   value,
+  labels = [],
 }: InputWithLabelsProps) => {
   return (
     <Box marginBottom={formBoxPadding}>
@@ -32,6 +58,11 @@ export const InputWithLabels = ({
         type="text"
         onChange={handleOnChange}
         value={value}
+        onKeyDown={(event) => {
+          if (event.key === "Enter" || event.key === ",") {
+            console.log(`${event.key} was pressed`);
+          }
+        }}
       />
     </Box>
   );
