@@ -14,10 +14,8 @@ import type { Margin } from "@twilio-paste/style-props";
 import { gutters } from "~/constants/gutters";
 import { InputWithLabels } from "~/components/form/input-with-labels/input-with-label";
 import { Form } from "@remix-run/react";
-import { useState } from "react";
-import { FormPill } from "~/components/form/form-pill/form-pill";
+import { useEffect, useState } from "react";
 import { FormPill as PasteFormPill } from "@twilio-paste/core";
-import type { FormPillId } from "~/components/form/form-pill/form-pill";
 
 const formBoxPadding: Margin = [
   gutters.smBreakpoint.md,
@@ -29,6 +27,10 @@ export const CreateTaskForm = () => {
   const taskNotesTextareaId = "task_notes";
   const [labels, setLabels] = useState<string[]>([]);
   const pillState = useFormPillState();
+
+  useEffect(() => {
+    console.log(labels);
+  }, [labels]);
 
   return (
     <Form method="post">
@@ -49,14 +51,29 @@ export const CreateTaskForm = () => {
           </Box>
           <Box marginBottom={formBoxPadding}>
             <InputWithLabels
-              labels={labels}
               inputId="task_labels"
               inputLabel={"Labels"}
+              handleSetLabels={setLabels}
+              labels={labels}
             />
             <FormPillGroup {...pillState} aria-label="hello-world">
-              <PasteFormPill {...pillState} key={`label-${"hello"}`}>
-                {"hello"}
-              </PasteFormPill>
+              {labels.map((label) => (
+                <PasteFormPill
+                  {...pillState}
+                  key={`label-${label}`}
+                  onSelect={() => {
+                    console.log("onSelect");
+
+                    const newLabels = labels.filter(
+                      (currentLabel) => currentLabel !== label
+                    );
+
+                    setLabels(newLabels);
+                  }}
+                >
+                  <Box minWidth="35px">{label}</Box>
+                </PasteFormPill>
+              ))}
             </FormPillGroup>
           </Box>
           <Box marginBottom={formBoxPadding}>
