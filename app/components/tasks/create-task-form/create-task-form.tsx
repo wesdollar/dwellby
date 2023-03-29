@@ -29,15 +29,11 @@ export const CreateTaskForm = () => {
   const pillState = useFormPillState();
 
   return (
-    <Form method="post">
+    <Form method="post" onSubmit={() => setLabels([])}>
       <Box>
         <InverseCard>
           <Box marginBottom={formBoxPadding}>
-            <InputWithLabels
-              value="Make Bed"
-              inputId="task_title"
-              inputLabel={"Task Title"}
-            />
+            <InputWithLabels inputId="task_title" inputLabel={"Task Title"} />
           </Box>
           <Box marginBottom={formBoxPadding}>
             <Label htmlFor="task_notes" required>
@@ -47,7 +43,6 @@ export const CreateTaskForm = () => {
               id={taskNotesTextareaId}
               name={taskNotesTextareaId}
               onChange={() => {}}
-              defaultValue="These are my notes."
             />
           </Box>
           <Box marginBottom={formBoxPadding}>
@@ -82,7 +77,7 @@ export const CreateTaskForm = () => {
             <Label htmlFor="task_effort" required>
               Lavel of Effort
             </Label>
-            <Select id="task_effort" name="effortId" defaultValue="1">
+            <Select id="task_effort" name="effortId">
               <Option value="1">Small</Option>
               <Option value="2">Medium</Option>
               <Option value="3">Large</Option>

@@ -66,21 +66,23 @@ export const action = async ({ request }: ActionArgs) => {
     });
   }
 
-  const taskItem = await prisma.taskItem.create({
-    data: {
-      title: (body?.get("task_title") as string) || "Untitled Task",
-      note: (body?.get("task_notes") as string) || "No notes",
-      estimatedCost: (body?.get("estimated_cost") as string) || "0.00",
-      effortId: 1,
-      dueDate: new Date("2023-04-01"),
-      labels: {
-        create: createData,
+  try {
+    const taskItem = await prisma.taskItem.create({
+      data: {
+        title: (body?.get("task_title") as string) || "Untitled Task",
+        note: (body?.get("task_notes") as string) || "No notes",
+        estimatedCost: (body?.get("estimated_cost") as string) || "0.00",
+        effortId: 1,
+        dueDate: new Date("2023-04-01"),
+        labels: {
+          create: createData,
+        },
+        statusId: 1,
       },
-      statusId: 1,
-    },
-  });
+    });
 
-  return json(taskItem);
+    return json(taskItem);
+  } catch (error) {}
 };
 
 export default function Index() {
