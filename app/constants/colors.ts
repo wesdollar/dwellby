@@ -10,6 +10,7 @@ export const colors = {
     primaryText: DarkTheme.textColors.colorText,
     primaryTextInverse: inverseText,
     secondaryText: DarkTheme.textColors.colorTextBrandHighlight,
+    brandPrimary: DarkTheme.textColors.colorTextIconBrandHighlight,
   },
   border: {
     error: DarkTheme.borderColors.colorBorderError,

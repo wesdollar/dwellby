@@ -1,6 +1,7 @@
 import { Box, Input, Label } from "@twilio-paste/core";
 import type { Margin } from "@twilio-paste/style-props";
 import { gutters } from "~/constants/gutters";
+import type { InputProps } from "@twilio-paste/input";
 
 const formBoxPadding: Margin = [
   gutters.smBreakpoint.md,
@@ -16,6 +17,7 @@ interface InputWithLabelsProps {
   value?: string;
   labels?: string[];
   handleSetLabels?: React.Dispatch<React.SetStateAction<string[]>>;
+  type?: string;
 }
 
 export const InputWithLabels = ({
@@ -25,6 +27,7 @@ export const InputWithLabels = ({
   value,
   labels = [],
   handleSetLabels = () => {},
+  type = "text",
 }: InputWithLabelsProps) => {
   return (
     <Box marginBottom={formBoxPadding}>
@@ -34,7 +37,7 @@ export const InputWithLabels = ({
       <Input
         id={inputId}
         name={inputId}
-        type="text"
+        type={type as InputProps["type"]}
         onChange={handleOnChange}
         value={value}
         onKeyDown={(event) => {

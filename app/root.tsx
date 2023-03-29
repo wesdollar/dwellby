@@ -1,4 +1,4 @@
-import type { ActionArgs, MetaFunction } from "@remix-run/node";
+import type { MetaFunction } from "@remix-run/node";
 import { Theme } from "@twilio-paste/core/theme";
 import {
   Links,
@@ -14,7 +14,7 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export default function App() {
+export const App = () => {
   return (
     <html lang="en">
       <head>
@@ -32,4 +32,6 @@ export default function App() {
       </body>
     </html>
   );
-}
+};
+
+export default App;

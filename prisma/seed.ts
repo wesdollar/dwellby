@@ -1,7 +1,17 @@
 import { PrismaClient } from "@prisma/client";
+import { hash } from "bcrypt";
+import { SALT_ROUNDS } from "./SALT_ROUNDS";
+
 const db = new PrismaClient();
 
 async function main() {
+  await db.user.create({
+    data: {
+      email: "github@dollardojo.tech",
+      password: await hash("password", SALT_ROUNDS),
+    },
+  });
+
   const firstLabel = await db.label.create({
     data: {
       name: "Household",

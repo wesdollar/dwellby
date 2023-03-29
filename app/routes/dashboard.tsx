@@ -9,6 +9,8 @@ import { CreateTasksButton } from "~/components/tasks/create-tasks-button/create
 import { PageWrapper } from "~/components/utilities/page-wrapper/page-wrapper";
 import { db } from "~/utils/db.server";
 import { json } from "@remix-run/node";
+// TODO: fix eslint rule
+// eslint-disable-next-line no-duplicate-imports
 import type { ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
@@ -36,10 +38,10 @@ export const action = async ({ request }: ActionArgs) => {
     console.log(error);
   }
 
-  let tasks = [] as any;
+  // TODO: fix typing
+  const tasks = [] as any;
 
   body?.forEach((value, key) => {
-    console.log(`${key}: ${value}`);
     tasks.push({ [key]: value });
   });
 
@@ -47,9 +49,7 @@ export const action = async ({ request }: ActionArgs) => {
   let labelsToCreate: string[] = [];
 
   tasks.forEach((task: string) => {
-    const key = Object.keys(task)[0];
-
-    console.log(key);
+    const [key] = Object.keys(task);
 
     if (key === "labels") {
       labelsToCreate = tasks[labelIndex].labels.split(",");
@@ -85,7 +85,7 @@ export const action = async ({ request }: ActionArgs) => {
   } catch (error) {}
 };
 
-export default function Index() {
+export const Dashboard = () => {
   const layoutGridGutters = ["space10", "space30", "space60"] as Space;
   const taskItems = useLoaderData<
     typeof loader
@@ -210,4 +210,6 @@ export default function Index() {
       </PageWrapper>
     </>
   );
-}
+};
+
+export default Dashboard;
