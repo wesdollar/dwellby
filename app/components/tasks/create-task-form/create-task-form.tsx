@@ -8,6 +8,7 @@ import {
   Select,
   TextArea,
   useFormPillState,
+  FormPill as PasteFormPill,
 } from "@twilio-paste/core";
 import { InverseCard } from "~/components/ui/inverse-card/inverse-card";
 import type { Margin } from "@twilio-paste/style-props";
@@ -15,7 +16,6 @@ import { gutters } from "~/constants/gutters";
 import { InputWithLabels } from "~/components/form/input-with-labels/input-with-label";
 import { Form } from "@remix-run/react";
 import { useState } from "react";
-import { FormPill as PasteFormPill } from "@twilio-paste/core";
 
 const formBoxPadding: Margin = [
   gutters.smBreakpoint.md,

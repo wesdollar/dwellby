@@ -1,8 +1,6 @@
-/* eslint-disable no-undefined */
-
 import { createCookieSessionStorage, redirect } from "@remix-run/node";
 import invariant from "tiny-invariant";
-import { getUserById, User } from "~/models/user.server";
+import { User, getUserById } from "~/models/user.server";
 
 invariant(process.env.SESSION_SECRET, "SESSION_SECRET must be set");
 
@@ -28,9 +26,13 @@ export async function getSession(request: Request) {
 
 export async function getUserId(
   request: Request
-): Promise<User["id"] | undefined> {
+): Promise<User["id"] | boolean> {
   const session = await getSession(request);
-  const userId = session.get(USER_SESSION_KEY);
+  const userId = session.get(USER_SESSION_KEY) as User["id"] | undefined;
+
+  if (!userId) {
+    return false;
+  }
 
   return userId;
 }
@@ -38,11 +40,11 @@ export async function getUserId(
 export async function getUser(request: Request) {
   const userId = await getUserId(request);
 
-  if (userId === undefined) {
+  if (!userId) {
     return null;
   }
 
-  const user = await getUserById(userId);
+  const user = await getUserById(userId as number);
 
   if (user) {
     return user;
@@ -69,7 +71,7 @@ export async function requireUserId(
 export async function requireUser(request: Request) {
   const userId = await requireUserId(request);
 
-  const user = await getUserById(userId);
+  const user = await getUserById(userId as number);
 
   if (user) {
     return user;
@@ -85,7 +87,7 @@ export async function createUserSession({
   redirectTo,
 }: {
   request: Request;
-  userId: string;
+  userId: number;
   remember: boolean;
   redirectTo: string;
 }) {
@@ -98,7 +100,8 @@ export async function createUserSession({
       "Set-Cookie": await sessionStorage.commitSession(session, {
         maxAge: remember
           ? 60 * 60 * 24 * 7 // 7 days
-          : undefined,
+          : // eslint-disable-next-line no-undefined
+            undefined,
       }),
     },
   });
@@ -106,10 +109,11 @@ export async function createUserSession({
 
 export async function logout(request: Request) {
   const session = await getSession(request);
+  const destroyedSession = await sessionStorage.destroySession(session);
 
-  return redirect("/", {
+  return redirect("/login", {
     headers: {
-      "Set-Cookie": await sessionStorage.destroySession(session),
+      "Set-Cookie": destroyedSession,
     },
   });
 }

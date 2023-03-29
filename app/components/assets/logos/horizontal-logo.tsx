@@ -1,8 +1,12 @@
-export const HorizontalLogo = () => (
+interface HorizontalLogoProps {
+  height?: string;
+}
+
+export const HorizontalLogo = ({ height = "60px" }: HorizontalLogoProps) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 1292.02 496.18"
-    style={{ height: "60px" }}
+    style={{ height }}
   >
     <g
       data-name="Layer 1"

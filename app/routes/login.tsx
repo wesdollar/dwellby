@@ -10,42 +10,68 @@ import {
   Input,
   Label,
 } from "@twilio-paste/core";
-import { authenticationStrategyName } from "~/constants/auth";
-import { authenticator } from "~/services/auth.server";
 import { InverseCard } from "~/components/ui/inverse-card/inverse-card";
 import { colors } from "~/constants/colors";
-import { getSession } from "~/services/session.server";
-import { PrismaClient } from "@prisma/client";
+import { createUserSession, getUserId } from "~/session.server";
+import { safeRedirect, validateEmail } from "~/utils";
+import { verifyLogin } from "~/models/user.server";
+import { CenteredViewport } from "~/components/ui/centered-viewport/centered-viewport";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient()
 
-export const loader = async () => {
-  const user = await prisma.user.findUnique({ where: { id: 1 } });
+export async function loader({ request }: LoaderArgs) {
+  const userId = await getUserId(request);
 
-  if (user) {
-    redirect("/dashboard");
+  if (userId) {
+    return redirect("/dashboard");
   }
 
   return json({});
-};
+}
 
 export async function action({ request }: ActionArgs) {
-  const formBody = request;
+  const formData = await request.formData();
+  const email = formData.get("email");
+  const password = formData.get("password");
+  const redirectTo = safeRedirect(formData.get("redirectTo"), "/dashboard");
+  const remember = formData.get("remember");
 
-  let authenticatedSession;
-
-  try {
-    authenticatedSession = await authenticator.authenticate(
-      authenticationStrategyName,
-      formBody
+  if (!validateEmail(email)) {
+    return json(
+      { errors: { email: "Email is invalid", password: null } },
+      { status: 400 }
     );
-  } catch (error) {
-    console.error(error);
   }
 
-  console.log("authenticatedSession: ", authenticatedSession);
+  if (typeof password !== "string" || password.length === 0) {
+    return json(
+      { errors: { email: null, password: "Password is required" } },
+      { status: 400 }
+    );
+  }
 
-  return json({});
+  if (password.length < 8) {
+    return json(
+      { errors: { email: null, password: "Password is too short" } },
+      { status: 400 }
+    );
+  }
+
+  const user = await verifyLogin(email, password);
+
+  if (!user) {
+    return json(
+      { errors: { email: "Invalid email or password", password: null } },
+      { status: 400 }
+    );
+  }
+
+  return createUserSession({
+    request,
+    userId: user.id,
+    remember: remember === "on" ? true : false,
+    redirectTo,
+  });
 }
 
 export const Login = () => {
@@ -53,13 +79,7 @@ export const Login = () => {
   const passwordInputName = "password";
 
   return (
-    <Box
-      display={"flex"}
-      width="100%"
-      height={"100vh"}
-      justifyContent="center"
-      alignItems={"center"}
-    >
+    <CenteredViewport>
       <InverseCard>
         <Box color={colors.text.brandPrimary}>
           <Heading
@@ -97,7 +117,7 @@ export const Login = () => {
           </FormActions>
         </Form>
       </InverseCard>
-    </Box>
+    </CenteredViewport>
   );
 };
 
