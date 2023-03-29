@@ -75,6 +75,7 @@ export const CreateTaskForm = () => {
                   <Box minWidth="35px">{label}</Box>
                 </PasteFormPill>
               ))}
+              <input type="hidden" name="labels" value={labels} />
             </FormPillGroup>
           </Box>
           <Box marginBottom={formBoxPadding}>

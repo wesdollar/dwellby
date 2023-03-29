@@ -16,6 +16,9 @@ import { gutters } from "~/constants/gutters";
 import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
 import { PrismaClient } from "@prisma/client";
 import type { TaskItemsRequest } from "../components/tasks/types/task-items-request";
+import type { LabelProps } from "~/components/tasks/types/label-props";
+
+type LabelData = Pick<LabelProps, "name">;
 
 export const loader = async () => {
   const taskItems = await db.taskItem.findMany({ include: { labels: true } });
@@ -40,7 +43,28 @@ export const action = async ({ request }: ActionArgs) => {
     tasks.push({ [key]: value });
   });
 
-  console.log(Object.assign({}, ...tasks));
+  let labelIndex = 0;
+  let labelsToCreate: string[] = [];
+
+  tasks.forEach((task: string) => {
+    const key = Object.keys(task)[0];
+
+    console.log(key);
+
+    if (key === "labels") {
+      labelsToCreate = tasks[labelIndex].labels.split(",");
+    }
+
+    labelIndex++;
+  });
+
+  const createData: LabelData[] = [];
+
+  if (labelsToCreate && labelsToCreate.length) {
+    labelsToCreate.forEach((label: any) => {
+      createData.push({ name: label });
+    });
+  }
 
   const taskItem = await prisma.taskItem.create({
     data: {
@@ -50,11 +74,7 @@ export const action = async ({ request }: ActionArgs) => {
       effortId: 1,
       dueDate: new Date("2023-04-01"),
       labels: {
-        create: [
-          {
-            name: "Test Label",
-          },
-        ],
+        create: createData,
       },
       statusId: 1,
     },
