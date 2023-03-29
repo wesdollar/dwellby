@@ -14,7 +14,7 @@ import type { Margin } from "@twilio-paste/style-props";
 import { gutters } from "~/constants/gutters";
 import { InputWithLabels } from "~/components/form/input-with-labels/input-with-label";
 import { Form } from "@remix-run/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FormPill as PasteFormPill } from "@twilio-paste/core";
 
 const formBoxPadding: Margin = [
@@ -28,16 +28,16 @@ export const CreateTaskForm = () => {
   const [labels, setLabels] = useState<string[]>([]);
   const pillState = useFormPillState();
 
-  useEffect(() => {
-    console.log(labels);
-  }, [labels]);
-
   return (
     <Form method="post">
       <Box>
         <InverseCard>
           <Box marginBottom={formBoxPadding}>
-            <InputWithLabels inputId="task_title" inputLabel={"Task Title"} />
+            <InputWithLabels
+              value="Make Bed"
+              inputId="task_title"
+              inputLabel={"Task Title"}
+            />
           </Box>
           <Box marginBottom={formBoxPadding}>
             <Label htmlFor="task_notes" required>
@@ -47,6 +47,7 @@ export const CreateTaskForm = () => {
               id={taskNotesTextareaId}
               name={taskNotesTextareaId}
               onChange={() => {}}
+              defaultValue="These are my notes."
             />
           </Box>
           <Box marginBottom={formBoxPadding}>
@@ -80,7 +81,7 @@ export const CreateTaskForm = () => {
             <Label htmlFor="task_effort" required>
               Lavel of Effort
             </Label>
-            <Select id="task_effort" name="effortId">
+            <Select id="task_effort" name="effortId" defaultValue="1">
               <Option value="1">Small</Option>
               <Option value="2">Medium</Option>
               <Option value="3">Large</Option>

@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@netlify/functions": "^1.3.0",
-    "@prisma/client": "^4.11.0",
+    "@prisma/client": "^4.12.0",
     "@remix-run/netlify": "^1.14.3",
     "@remix-run/node": "^1.14.3",
     "@remix-run/react": "^1.14.3",
@@ -29,7 +29,7 @@
     "@types/react-dom": "^18.0.8",
     "esbuild-register": "^3.4.2",
     "eslint": "^8.27.0",
-    "prisma": "^4.11.0",
+    "prisma": "^4.12.0",
     "typescript": "^4.8.4"
   },
   "engines": {

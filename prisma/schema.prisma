@@ -8,18 +8,18 @@ datasource db {
 }
 
 model TaskItem {
-  id        Int      @id @default(autoincrement())
-  title     String
-  note      String?
-  dueDate   DateTime
+  id            Int      @id @default(autoincrement())
+  title         String
+  note          String?
+  dueDate       DateTime
   estimatedCost String?
-  statusId  Int
-  effortId  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  status    Status   @relation(fields: [statusId], references: [id])
-  effort    Effort   @relation(fields: [effortId], references: [id])
-  labels    Label[]  @relation("LabelToTaskItem")
+  statusId      Int
+  effortId      Int
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  status        Status   @relation(fields: [statusId], references: [id])
+  effort        Effort   @relation(fields: [effortId], references: [id])
+  labels        Label[]  @relation("LabelToTaskItem")
 }
 
 model Label {
