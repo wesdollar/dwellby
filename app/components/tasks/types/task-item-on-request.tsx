@@ -1,7 +1,7 @@
-import type { LabelProps } from "./label-props";
+import type { LabelProps } from "~/components/tasks/types/label-props";
 
-export interface TaskItemProps {
-  id?: number;
+export interface TaskItemOnRequest {
+  id: number;
   title: string;
   note: string;
   dueDate: Date;
@@ -11,5 +11,4 @@ export interface TaskItemProps {
   createdAt: Date;
   updatedAt: Date;
   labels: LabelProps[];
-  taskId?: number;
 }

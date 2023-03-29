@@ -1,25 +1,36 @@
 import {
   Box,
-  FormPill,
   FormPillGroup,
   Heading,
   useFormPillState,
 } from "@twilio-paste/core";
-import { InverseCard } from "~/components/ui/inverse-card";
+import { FormPill } from "~/components/form/form-pill/form-pill";
+import { InverseCard } from "~/components/ui/inverse-card/inverse-card";
 import { Spacer } from "~/components/utilities/spacer/spacer";
 import { gutters } from "~/constants/gutters";
 import { TaskItem } from "../task-item/task-item";
-import type { TaskItemProps } from "../types/task-item-props";
-
-// SerializeObject<UndefinedToOptional
+import type { LimitedTaskItemProps } from "../task-item/task-item";
+import { useState } from "react";
 
 interface TaskListProps {
-  taskItems: TaskItemProps[];
+  taskItems: LimitedTaskItemProps[];
   title?: string;
 }
 
 export const TaskList = ({ taskItems, title }: TaskListProps) => {
-  const pillState = useFormPillState();
+  const [activeToken, setActiveToken] = useState(2);
+
+  const filterTokens = [
+    { id: 1, name: "Day" },
+    { id: 2, name: "Month" },
+    { id: 3, name: "Quarter" },
+    { id: 4, name: "Year" },
+    { id: 5, name: "All" },
+  ];
+
+  const pillState = useFormPillState({
+    baseId: "test",
+  });
 
   return (
     <Box width={"100%"}>
@@ -31,9 +42,16 @@ export const TaskList = ({ taskItems, title }: TaskListProps) => {
         )}
 
         <FormPillGroup {...pillState} aria-label="hello-world">
-          <FormPill {...pillState}>Voice</FormPill>
-          <FormPill {...pillState}>Whatever</FormPill>
-          <FormPill {...pillState}>Cheers</FormPill>
+          {filterTokens.map(({ id, name }) => (
+            <FormPill
+              key={`filterToken-${id}`}
+              pillState={pillState}
+              handleSetActiveToken={setActiveToken}
+              name={name}
+              activeToken={activeToken}
+              id={id}
+            />
+          ))}
         </FormPillGroup>
 
         <Spacer
@@ -44,16 +62,19 @@ export const TaskList = ({ taskItems, title }: TaskListProps) => {
           ]}
         />
 
-        {taskItems.map(({ title, dueDate, labels, statusId, id }) => (
-          <TaskItem
-            key={`takeItem-${id}`}
-            title={title}
-            dueDate={dueDate}
-            labels={labels}
-            taskId={id}
-            statusId={statusId}
-          />
-        ))}
+        {taskItems.map(
+          ({ title, dueDate, labels, statusId, id, estimatedCost }) => (
+            <TaskItem
+              key={`takeItem-${id}`}
+              title={title}
+              dueDate={dueDate}
+              labels={labels}
+              taskId={id}
+              statusId={statusId}
+              estimatedCost={estimatedCost}
+            />
+          )
+        )}
       </InverseCard>
     </Box>
   );

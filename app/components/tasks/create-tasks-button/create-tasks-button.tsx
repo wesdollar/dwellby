@@ -5,6 +5,7 @@ interface CreateTaskButtonProps {
   alignItems?: string;
   justifyContent?: string;
   handleOnClick?: () => void;
+  labels?: Record<string, unknown>[];
 }
 
 export const CreateTasksButton = ({

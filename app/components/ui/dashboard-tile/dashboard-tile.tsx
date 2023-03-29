@@ -1,5 +1,5 @@
 import { Box, Heading, Text } from "@twilio-paste/core";
-import { InverseCard } from "../inverse-card";
+import { InverseCard } from "../inverse-card/inverse-card";
 
 interface DashboardTileProps {
   variant: string;

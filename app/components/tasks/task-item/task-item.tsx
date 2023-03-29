@@ -8,13 +8,18 @@ import {
 import { colors } from "~/constants/colors";
 import type { TaskItemProps } from "../types/task-item-props";
 
+export type LimitedTaskItemProps = Omit<
+  TaskItemProps,
+  "createdAt" | "updatedAt" | "note" | "estimateCost" | "effortId"
+>;
+
 export const TaskItem = ({
   title,
   dueDate,
   labels,
   taskId,
   statusId,
-}: TaskItemProps) => (
+}: LimitedTaskItemProps) => (
   <Box
     key={`task-${taskId}`}
     backgroundColor={colors.background.body}

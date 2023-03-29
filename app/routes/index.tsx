@@ -14,9 +14,8 @@ import { useLoaderData } from "@remix-run/react";
 import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
 import { gutters } from "~/constants/gutters";
 import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
-import type { FormEvent } from "react";
-import { CreateTaskFormDebug } from "~/components/playground/create-task-form-debug";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient } from "@prisma/client";
+import type { TaskItemsRequest } from "../components/tasks/types/task-items-request";
 
 export const loader = async () => {
   const taskItems = await db.taskItem.findMany({ include: { labels: true } });
@@ -66,24 +65,45 @@ export const action = async ({ request }: ActionArgs) => {
 
 export default function Index() {
   const layoutGridGutters = ["space10", "space30", "space60"] as Space;
-  const taskItems = useLoaderData<typeof loader>();
+  const taskItems = useLoaderData<
+    typeof loader
+  >() as unknown as TaskItemsRequest;
+
+  let allTasksCount = 0;
+  let pastDueTasksCount = 0;
+  let completedTasksCount = 0;
+
+  taskItems.forEach((taskItem) => {
+    if (taskItem.statusId === 1) {
+      allTasksCount++;
+    }
+
+    if (taskItem.statusId === 2) {
+      pastDueTasksCount++;
+    }
+
+    if (taskItem.statusId === 3) {
+      completedTasksCount++;
+    }
+  });
+
   const metricTiles = [
     {
       title: "All Tasks",
       variant: "brandPrimary",
-      count: 23,
+      count: allTasksCount,
       id: 1,
     },
     {
       title: "Past-Due Tasks",
       variant: "error",
-      count: 2,
+      count: pastDueTasksCount,
       id: 2,
     },
     {
       title: "Completed Tasks",
       variant: "success",
-      count: 7,
+      count: completedTasksCount,
       id: 3,
     },
   ];
