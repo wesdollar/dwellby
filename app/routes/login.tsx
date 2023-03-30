@@ -3,6 +3,7 @@ import { ActionArgs, json, LoaderArgs, redirect } from "@remix-run/node";
 import {
   Box,
   Button,
+  Checkbox,
   Form,
   FormActions,
   FormControl,
@@ -16,6 +17,8 @@ import { createUserSession, getUserId } from "~/session.server";
 import { safeRedirect, validateEmail } from "~/utils";
 import { verifyLogin } from "~/models/user.server";
 import { CenteredViewport } from "~/components/ui/centered-viewport/centered-viewport";
+import { Spacer } from "~/components/utilities/spacer/spacer";
+import { gutters } from "~/constants/gutters";
 
 // const prisma = new PrismaClient()
 
@@ -77,44 +80,54 @@ export async function action({ request }: ActionArgs) {
 export const Login = () => {
   const emailInputName = "email";
   const passwordInputName = "password";
+  const rememberMeText = "remember_me";
 
   return (
     <CenteredViewport>
       <InverseCard>
-        <Box color={colors.text.brandPrimary}>
-          <Heading
-            color={"colorTextIconBrandHighlight"}
-            as="h2"
-            variant="heading30"
-          >
-            Login
+        <Box>
+          <Heading as="h2" variant="heading30">
+            <Box style={{ color: colors.brandPrimary }}>Log In</Box>
           </Heading>
         </Box>
+        <Spacer
+          height={[
+            gutters.smBreakpoint.md,
+            gutters.mdBreakpoint.md,
+            gutters.lgBreakpoint.xs,
+          ]}
+        />
         <Form method="post">
           <FormControl>
             <Label htmlFor={emailInputName}>Email</Label>
-            <Input
-              type={emailInputName}
-              name={emailInputName}
-              required
-              defaultValue="github@dollardojo.tech"
-            />
+            <Input type={emailInputName} name={emailInputName} required />
           </FormControl>
           <FormControl>
             <Label htmlFor={passwordInputName}>Password</Label>
             <Input
-              defaultValue={"password"}
               type="password"
               name="password"
               autoComplete="current-password"
               required
             />
           </FormControl>
-          <FormActions>
-            <Button variant="primary" type="submit">
-              Sign In
-            </Button>
-          </FormActions>
+          <FormControl>
+            <Checkbox
+              id={rememberMeText}
+              value="true"
+              name={rememberMeText}
+              defaultChecked
+            >
+              I am an uncontrolled checkbox
+            </Checkbox>
+          </FormControl>
+          <Box style={{ marginTop: "-20px" }}>
+            <FormActions>
+              <Button variant="primary" type="submit">
+                Sign In
+              </Button>
+            </FormActions>
+          </Box>
         </Form>
       </InverseCard>
     </CenteredViewport>

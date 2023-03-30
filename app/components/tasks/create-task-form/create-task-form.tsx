@@ -33,12 +33,14 @@ export const CreateTaskForm = () => {
       <Box>
         <InverseCard>
           <Box marginBottom={formBoxPadding}>
-            <InputWithLabels inputId="task_title" inputLabel={"Task Title"} />
+            <InputWithLabels
+              inputId="task_title"
+              inputLabel={"Task Title"}
+              required
+            />
           </Box>
           <Box marginBottom={formBoxPadding}>
-            <Label htmlFor="task_notes" required>
-              Task Notes
-            </Label>
+            <Label htmlFor="task_notes">Task Notes</Label>
             <TextArea
               id={taskNotesTextareaId}
               name={taskNotesTextareaId}
@@ -75,7 +77,7 @@ export const CreateTaskForm = () => {
           </Box>
           <Box marginBottom={formBoxPadding}>
             <Label htmlFor="task_effort" required>
-              Lavel of Effort
+              Level of Effort
             </Label>
             <Select id="task_effort" name="effortId">
               <Option value="1">Small</Option>

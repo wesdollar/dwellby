@@ -19,7 +19,7 @@ export const FlyoutMenu = ({ callToAction, menuItems }: FlyoutMenuProps) => {
       <MenuButton variant="secondary" {...menu}>
         {callToAction}
       </MenuButton>
-      <Menu {...menu} aria-label="Actions">
+      <Menu {...menu} hideOnClickOutside aria-label="Actions">
         {menuItems.map(({ name, href }) => (
           <MenuItem {...menu} key={`menuItem-${name}`} href={href}>
             {name}

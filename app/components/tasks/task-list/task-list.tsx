@@ -8,8 +8,7 @@ import { FormPill } from "~/components/form/form-pill/form-pill";
 import { InverseCard } from "~/components/ui/inverse-card/inverse-card";
 import { Spacer } from "~/components/utilities/spacer/spacer";
 import { gutters } from "~/constants/gutters";
-import { TaskItem } from "../task-item/task-item";
-import type { LimitedTaskItemProps } from "../task-item/task-item";
+import { TaskItem, LimitedTaskItemProps } from "../task-item/task-item";
 import { useState } from "react";
 
 interface TaskListProps {
@@ -22,10 +21,11 @@ export const TaskList = ({ taskItems, title }: TaskListProps) => {
 
   const filterTokens = [
     { id: 1, name: "Day" },
-    { id: 2, name: "Month" },
-    { id: 3, name: "Quarter" },
-    { id: 4, name: "Year" },
-    { id: 5, name: "All" },
+    { id: 2, name: "Weekly" },
+    { id: 3, name: "Month" },
+    { id: 4, name: "Quarter" },
+    { id: 5, name: "Year" },
+    { id: 6, name: "All" },
   ];
 
   const pillState = useFormPillState({

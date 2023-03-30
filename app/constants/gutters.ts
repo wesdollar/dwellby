@@ -14,6 +14,7 @@ export const gutters = {
   },
 
   lgBreakpoint: {
+    xs: DarkTheme.space.space40,
     sm: DarkTheme.space.space60,
     md: DarkTheme.space.space70,
     lg: DarkTheme.space.space100,

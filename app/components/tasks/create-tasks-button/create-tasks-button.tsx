@@ -1,4 +1,4 @@
-import { Box, Button, FormActions } from "@twilio-paste/core";
+import { Box, Button } from "@twilio-paste/core";
 
 interface CreateTaskButtonProps {
   display?: string;
