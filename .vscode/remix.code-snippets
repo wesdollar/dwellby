@@ -52,5 +52,14 @@
 			"}",
 		],
 		"description": "Creates a new React component using fat-arrow syntax."
+	},
+
+	"Stringified console log": {
+		"scope": "javascript,typescript,javascriptreact,typescriptreact",
+		"prefix": "logs",
+		"body": [
+			"console.log(JSON.stringify($1, null, 2));"
+		],
+		"description": "Creates a new React component using fat-arrow syntax."
 	}
 }

@@ -42,7 +42,9 @@ export const action = async ({ request }: ActionArgs) => {
   const tasks = [] as any;
 
   body?.forEach((value, key) => {
-    tasks.push({ [key]: value });
+    if (value && key) {
+      tasks.push({ [key]: value });
+    }
   });
 
   let labelIndex = 0;

@@ -1,16 +1,18 @@
+import { Box } from "@twilio-paste/core";
 import { styled, variant } from "@twilio-paste/styling-library";
 import { colors } from "~/constants/colors";
 
 const inverseTextColor = colors.text.black;
 const inverseBackground = colors.background.inverse;
 
-const CustomCard = styled.div(
+const StyledCard = styled.div(
   {
     background: colors.background.inverse,
     borderColor: "red",
     borderRadius: "8px",
     padding: "32px",
     color: colors.text.white,
+    maxWidth: "100%",
 
     h3: {
       color: colors.text.white,
@@ -59,8 +61,11 @@ const CustomCard = styled.div(
 export interface InverseCardProps {
   children: React.ReactNode;
   variant?: string | undefined; // "success" | "error" | "brandPrimary"
+  width?: string | undefined;
 }
 
-export const InverseCard = ({ children, variant }: InverseCardProps) => {
-  return <CustomCard variant={variant}>{children}</CustomCard>;
-};
+export const InverseCard = ({ children, variant, width }: InverseCardProps) => (
+  <Box width={width}>
+    <StyledCard variant={variant}>{children}</StyledCard>
+  </Box>
+);
