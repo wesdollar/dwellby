@@ -4,6 +4,28 @@ import { SALT_ROUNDS } from "./SALT_ROUNDS";
 
 const db = new PrismaClient();
 
+type Task = {
+  title: string;
+  note?: string;
+  dueDate: Date;
+  estimatedCost: string;
+  status: {
+    connect: {
+      id: number;
+    };
+  };
+  labels: {
+    connect: {
+      id: number;
+    }[];
+  };
+  effort: {
+    connect: {
+      id: number;
+    };
+  };
+};
+
 async function main() {
   await db.user.create({
     data: {
@@ -69,8 +91,7 @@ async function main() {
     },
   });
 
-  // TODO: type safety
-  const tasks = [
+  const tasks: Task[] = [
     {
       title: "Take Out the Trash",
       note: "The trash is overflowing.",
