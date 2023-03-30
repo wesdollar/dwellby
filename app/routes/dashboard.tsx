@@ -75,7 +75,9 @@ export const action = async ({ request }: ActionArgs) => {
         note: (body?.get("task_notes") as string) || "No notes",
         estimatedCost: (body?.get("estimated_cost") as string) || "0.00",
         effortId: 1,
-        dueDate: new Date("2023-04-01"),
+        dueDate: new Date(
+          `${body?.get("month")}/${body?.get("day")}/${body?.get("year")}`
+        ),
         labels: {
           create: createData,
         },
