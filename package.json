@@ -3,6 +3,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "remix build",
+    "ci:init": "npm run build && npm run db:sunset",
     "db:sunset": "rm -f ./prisma/dev.db && prisma migrate dev --name init",
     "dev": "remix dev",
     "prepare": "husky install",
