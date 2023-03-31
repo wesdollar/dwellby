@@ -36,10 +36,6 @@ export const TaskList = ({
   const [activeToken, setActiveToken] = useState(weeklyFilterValue);
   const [taskItems, setTaskItems] = useState(taskItemsFromProps);
 
-  useEffect(() => {
-    setTaskItems([]);
-  }, []);
-
   const filterTokens = [
     { id: 1, name: "Day" },
     { id: 2, name: "Weekly" },
