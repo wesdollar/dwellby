@@ -122,9 +122,7 @@ export const action = async ({ request }: ActionArgs) => {
 
 export const Dashboard = () => {
   const layoutGridGutters = ["space10", "space30", "space60"] as Space;
-  const taskItems = useLoaderData<
-    typeof loader
-  >() as unknown as TaskItemsRequest;
+  const taskItems = [];
 
   const allTasksCount = taskItems.length;
   let upcomingTasks = 0;
