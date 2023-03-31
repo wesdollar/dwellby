@@ -33,6 +33,8 @@ export const loader = async () => {
   try {
     taskItems = await db.taskItem.findMany({ include: { labels: true } });
   } catch (error) {
+    console.log("hit the loader error boundary");
+
     throw new Response("Go to sleep", { status: 420 });
   }
 
