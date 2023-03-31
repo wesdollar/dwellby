@@ -40,10 +40,10 @@ export const TaskList = ({
     let currentDateRange: Number;
     let currentWeek: Date;
     let updatedTaskItems;
-    let currentMonth;
+    let currentMonth: Date;
     let persistedCache;
-    let currentQuarter;
-    let currentYear;
+    let currentQuarter: Date;
+    let currentYear: Date;
 
     let cachedTaskItems = [...taskItemsFromProps];
 
@@ -127,9 +127,9 @@ export const TaskList = ({
     { id: 6, name: "All" },
   ];
 
-  // const pillState = useFormPillState({
-  //   baseId: "take-list-tokens",
-  // });
+  const pillState = useFormPillState({
+    baseId: "take-list-tokens",
+  });
 
   return (
     <Box width={"100%"}>
@@ -140,7 +140,7 @@ export const TaskList = ({
           </Heading>
         )}
 
-        {/* {filterTokens.length && (
+        {filterTokens.length && (
           <FormPillGroup {...pillState} aria-label="hello-world">
             {filterTokens.map(({ id, name }) => (
               <FormPill
@@ -155,7 +155,7 @@ export const TaskList = ({
               />
             ))}
           </FormPillGroup>
-        )} */}
+        )}
 
         <Spacer
           height={[
