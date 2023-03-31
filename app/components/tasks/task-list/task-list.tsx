@@ -18,7 +18,7 @@ import addQuarter from "date-fns/addQuarters";
 import addYear from "date-fns/addYears";
 
 interface TaskListProps {
-  taskItems: LimitedTaskItemProps[];
+  taskItemsProps: LimitedTaskItemProps[];
   title?: string;
 }
 
@@ -28,13 +28,9 @@ const StyledEmptyStateMessage = styled.div({
   },
 });
 
-export const TaskList = ({
-  taskItems: taskItemsFromProps,
-  title,
-}: TaskListProps) => {
+export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
   const weeklyFilterValue = 2;
   const [activeToken, setActiveToken] = useState(weeklyFilterValue);
-  const [taskItems, setTaskItems] = useState(taskItemsFromProps);
 
   const filterTokens = [
     { id: 1, name: "Day" },
@@ -83,8 +79,8 @@ export const TaskList = ({
           ]}
         />
 
-        {taskItems && taskItems.length ? (
-          taskItems.map(
+        {taskItemsProps && taskItemsProps.length ? (
+          taskItemsProps.map(
             ({ title, dueDate, labels, statusId, id, estimatedCost }) => (
               <TaskItem
                 key={`takeItem-${id}`}
