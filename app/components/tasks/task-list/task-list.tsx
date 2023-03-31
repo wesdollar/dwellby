@@ -36,87 +36,87 @@ export const TaskList = ({
   const [activeToken, setActiveToken] = useState(weeklyFilterValue);
   const [taskItems, setTaskItems] = useState(taskItemsFromProps);
 
-  // useEffect(() => {
-  //   let currentDateRange: Number;
-  //   let currentWeek: Date;
-  //   let updatedTaskItems;
-  //   let currentMonth;
-  //   let persistedCache;
-  //   let currentQuarter;
-  //   let currentYear;
+  useEffect(() => {
+    let currentDateRange: Number;
+    let currentWeek: Date;
+    let updatedTaskItems;
+    let currentMonth;
+    let persistedCache;
+    let currentQuarter;
+    let currentYear;
 
-  //   let cachedTaskItems = [...taskItemsFromProps];
+    let cachedTaskItems = [...taskItemsFromProps];
 
-  //   switch (activeToken) {
-  //     case 1:
-  //       currentDateRange = new Date().getDay();
+    switch (activeToken) {
+      case 1:
+        currentDateRange = new Date().getDay();
 
-  //       updatedTaskItems = taskItems.filter((taskItem) => {
-  //         const taskItemDay = new Date(taskItem.dueDate).getDay();
+        updatedTaskItems = taskItems.filter((taskItem) => {
+          const taskItemDay = new Date(taskItem.dueDate).getDay();
 
-  //         return currentDateRange === taskItemDay;
-  //       });
+          return currentDateRange === taskItemDay;
+        });
 
-  //       setTaskItems(updatedTaskItems);
+        setTaskItems(updatedTaskItems);
 
-  //       break;
-  //     case 2:
-  //       currentWeek = addWeek(new Date(), 1);
+        break;
+      case 2:
+        currentWeek = addWeek(new Date(), 1);
 
-  //       updatedTaskItems = taskItems.filter(
-  //         (taskItem) => new Date(taskItem.dueDate) <= currentWeek
-  //       );
+        updatedTaskItems = taskItems.filter(
+          (taskItem) => new Date(taskItem.dueDate) <= currentWeek
+        );
 
-  //       setTaskItems(updatedTaskItems);
-  //       break;
-  //     case 3:
-  //       currentMonth = addMonth(new Date(), 1);
+        setTaskItems(updatedTaskItems);
+        break;
+      case 3:
+        currentMonth = addMonth(new Date(), 1);
 
-  //       persistedCache = [...cachedTaskItems];
+        persistedCache = [...cachedTaskItems];
 
-  //       updatedTaskItems = cachedTaskItems.filter(
-  //         (taskItem) => new Date(taskItem.dueDate) <= currentMonth
-  //       );
+        updatedTaskItems = cachedTaskItems.filter(
+          (taskItem) => new Date(taskItem.dueDate) <= currentMonth
+        );
 
-  //       cachedTaskItems = [...persistedCache];
+        cachedTaskItems = [...persistedCache];
 
-  //       setTaskItems(updatedTaskItems);
+        setTaskItems(updatedTaskItems);
 
-  //       break;
-  //     case 4:
-  //       currentQuarter = addQuarter(new Date(), 1);
+        break;
+      case 4:
+        currentQuarter = addQuarter(new Date(), 1);
 
-  //       persistedCache = [...cachedTaskItems];
+        persistedCache = [...cachedTaskItems];
 
-  //       updatedTaskItems = cachedTaskItems.filter(
-  //         (taskItem) => new Date(taskItem.dueDate) <= currentQuarter
-  //       );
+        updatedTaskItems = cachedTaskItems.filter(
+          (taskItem) => new Date(taskItem.dueDate) <= currentQuarter
+        );
 
-  //       cachedTaskItems = [...persistedCache];
+        cachedTaskItems = [...persistedCache];
 
-  //       setTaskItems(updatedTaskItems);
+        setTaskItems(updatedTaskItems);
 
-  //       break;
-  //     case 5:
-  //       currentYear = addYear(new Date(), 1);
+        break;
+      case 5:
+        currentYear = addYear(new Date(), 1);
 
-  //       persistedCache = [...cachedTaskItems];
+        persistedCache = [...cachedTaskItems];
 
-  //       updatedTaskItems = cachedTaskItems.filter(
-  //         (taskItem) => new Date(taskItem.dueDate) <= currentYear
-  //       );
+        updatedTaskItems = cachedTaskItems.filter(
+          (taskItem) => new Date(taskItem.dueDate) <= currentYear
+        );
 
-  //       cachedTaskItems = [...persistedCache];
+        cachedTaskItems = [...persistedCache];
 
-  //       setTaskItems(updatedTaskItems);
-  //       break;
-  //     case 6:
-  //       setTaskItems(cachedTaskItems);
-  //       break;
-  //     default:
-  //     //
-  //   }
-  // }, [activeToken]);
+        setTaskItems(updatedTaskItems);
+        break;
+      case 6:
+        setTaskItems(cachedTaskItems);
+        break;
+      default:
+      //
+    }
+  }, [activeToken]);
 
   const filterTokens = [
     { id: 1, name: "Day" },
