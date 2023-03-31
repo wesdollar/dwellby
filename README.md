@@ -1,5 +1,7 @@
 # Welcome to Remix!
 
+bump
+
 - [Remix Docs](https://remix.run/docs)
 - [Netlify Functions](https://www.netlify.com/products/functions/)
 
