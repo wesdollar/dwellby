@@ -22,7 +22,7 @@ import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
 import { gutters } from "~/constants/gutters";
 import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
 import { PrismaClient } from "@prisma/client";
-import type { TaskItemsRequest } from "../components/tasks/types/task-items-request";
+import type { TaskItemProps } from "../components/tasks/types/task-item-props";
 import type { LabelProps } from "~/components/tasks/types/label-props";
 
 type LabelData = Pick<LabelProps, "name">;
@@ -122,12 +122,12 @@ export const action = async ({ request }: ActionArgs) => {
 
 export const Dashboard = () => {
   const layoutGridGutters = ["space10", "space30", "space60"] as Space;
-  const taskItems = [];
+  const taskItems = useLoaderData() as unknown as TaskItemProps[];
 
   const allTasksCount = taskItems.length;
-  let upcomingTasks = 0;
   let pastDueTasksCount = 0;
   let completedTasksCount = 0;
+  let upcomingTasks = 0;
 
   taskItems.forEach((taskItem) => {
     if (taskItem.statusId === 1) {
