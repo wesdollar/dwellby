@@ -12,10 +12,10 @@ import { TaskItem, LimitedTaskItemProps } from "../task-item/task-item";
 import { useState, useEffect } from "react";
 import { colors } from "~/constants/colors";
 import { styled } from "@twilio-paste/styling-library";
-import addWeek from "date-fns/addWeeks";
-import addMonth from "date-fns/addMonths";
-import addQuarter from "date-fns/addQuarters";
-import addYear from "date-fns/addYears";
+// import addWeek from "date-fns/addWeeks";
+// import addMonth from "date-fns/addMonths";
+// import addQuarter from "date-fns/addQuarters";
+// import addYear from "date-fns/addYears";
 
 interface TaskListProps {
   taskItems: LimitedTaskItemProps[];
@@ -36,95 +36,91 @@ export const TaskList = ({
   const [activeToken, setActiveToken] = useState(weeklyFilterValue);
   const [taskItems, setTaskItems] = useState(taskItemsFromProps);
 
-  // useEffect(() => {
-  //   cachedTaskItems = [...taskItemsFromProps];
-
-  //   console.log("task items from props: ", taskItemsFromProps);
-  // }, []);
-
   useEffect(() => {
-    let currentDateRange: Number;
-    let currentWeek: Date;
-    let updatedTaskItems;
-    let todayString;
-    let todayDate;
-    let currentMonth;
-    let persistedCache;
-    let currentQuarter;
-    let currentYear;
+    setTaskItems([]);
+  }, []);
 
-    let cachedTaskItems = [...taskItemsFromProps];
+  // useEffect(() => {
+  //   let currentDateRange: Number;
+  //   let currentWeek: Date;
+  //   let updatedTaskItems;
+  //   let currentMonth;
+  //   let persistedCache;
+  //   let currentQuarter;
+  //   let currentYear;
 
-    switch (activeToken) {
-      case 1:
-        currentDateRange = new Date().getDay();
+  //   let cachedTaskItems = [...taskItemsFromProps];
 
-        updatedTaskItems = taskItems.filter((taskItem) => {
-          const taskItemDay = new Date(taskItem.dueDate).getDay();
+  //   switch (activeToken) {
+  //     case 1:
+  //       currentDateRange = new Date().getDay();
 
-          return currentDateRange === taskItemDay;
-        });
+  //       updatedTaskItems = taskItems.filter((taskItem) => {
+  //         const taskItemDay = new Date(taskItem.dueDate).getDay();
 
-        setTaskItems(updatedTaskItems);
+  //         return currentDateRange === taskItemDay;
+  //       });
 
-        break;
-      case 2:
-        currentWeek = addWeek(new Date(), 1);
+  //       setTaskItems(updatedTaskItems);
 
-        updatedTaskItems = taskItems.filter(
-          (taskItem) => new Date(taskItem.dueDate) <= currentWeek
-        );
+  //       break;
+  //     case 2:
+  //       currentWeek = addWeek(new Date(), 1);
 
-        setTaskItems(updatedTaskItems);
-        break;
-      case 3:
-        currentMonth = addMonth(new Date(), 1);
+  //       updatedTaskItems = taskItems.filter(
+  //         (taskItem) => new Date(taskItem.dueDate) <= currentWeek
+  //       );
 
-        persistedCache = [...cachedTaskItems];
+  //       setTaskItems(updatedTaskItems);
+  //       break;
+  //     case 3:
+  //       currentMonth = addMonth(new Date(), 1);
 
-        updatedTaskItems = cachedTaskItems.filter(
-          (taskItem) => new Date(taskItem.dueDate) <= currentMonth
-        );
+  //       persistedCache = [...cachedTaskItems];
 
-        cachedTaskItems = [...persistedCache];
+  //       updatedTaskItems = cachedTaskItems.filter(
+  //         (taskItem) => new Date(taskItem.dueDate) <= currentMonth
+  //       );
 
-        setTaskItems(updatedTaskItems);
+  //       cachedTaskItems = [...persistedCache];
 
-        break;
-      case 4:
-        currentQuarter = addQuarter(new Date(), 1);
+  //       setTaskItems(updatedTaskItems);
 
-        persistedCache = [...cachedTaskItems];
+  //       break;
+  //     case 4:
+  //       currentQuarter = addQuarter(new Date(), 1);
 
-        updatedTaskItems = cachedTaskItems.filter(
-          (taskItem) => new Date(taskItem.dueDate) <= currentQuarter
-        );
+  //       persistedCache = [...cachedTaskItems];
 
-        cachedTaskItems = [...persistedCache];
+  //       updatedTaskItems = cachedTaskItems.filter(
+  //         (taskItem) => new Date(taskItem.dueDate) <= currentQuarter
+  //       );
 
-        setTaskItems(updatedTaskItems);
+  //       cachedTaskItems = [...persistedCache];
 
-        break;
-      case 5:
-        currentYear = addYear(new Date(), 1);
+  //       setTaskItems(updatedTaskItems);
 
-        persistedCache = [...cachedTaskItems];
+  //       break;
+  //     case 5:
+  //       currentYear = addYear(new Date(), 1);
 
-        updatedTaskItems = cachedTaskItems.filter(
-          (taskItem) => new Date(taskItem.dueDate) <= currentYear
-        );
+  //       persistedCache = [...cachedTaskItems];
 
-        cachedTaskItems = [...persistedCache];
+  //       updatedTaskItems = cachedTaskItems.filter(
+  //         (taskItem) => new Date(taskItem.dueDate) <= currentYear
+  //       );
 
-        setTaskItems(updatedTaskItems);
-        break;
-      case 6:
-        setTaskItems(cachedTaskItems);
-        break;
-      default:
-      //
-    }
-  }, [activeToken]);
+  //       cachedTaskItems = [...persistedCache];
+
+  //       setTaskItems(updatedTaskItems);
+  //       break;
+  //     case 6:
+  //       setTaskItems(cachedTaskItems);
+  //       break;
+  //     default:
+  //     //
+  //   }
+  // }, [activeToken]);
 
   const filterTokens = [
     { id: 1, name: "Day" },
