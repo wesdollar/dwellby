@@ -224,7 +224,7 @@ export const Dashboard = () => {
               <CreateTaskForm />
             </Column>
             <Column span={4}>
-              <TaskList taskItems={taskItems} />
+              <TaskList />
             </Column>
             <Column span={4}>
               <Grid gutter={layoutGridGutters}>
