@@ -223,7 +223,9 @@ export const Dashboard = () => {
             <Column span={4}>
               <CreateTaskForm />
             </Column>
-            <Column span={4}>{/* <TaskList taskItems={taskItems} /> */}</Column>
+            <Column span={4}>
+              <TaskList taskItems={taskItems} />
+            </Column>
             <Column span={4}>
               <Grid gutter={layoutGridGutters}>
                 {metricTiles.map(({ id, count, title, variant }) => (

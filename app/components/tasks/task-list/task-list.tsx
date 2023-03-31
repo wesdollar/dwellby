@@ -36,10 +36,6 @@ export const TaskList = ({
   const [activeToken, setActiveToken] = useState(weeklyFilterValue);
   const [taskItems, setTaskItems] = useState(taskItemsFromProps);
 
-  useEffect(() => {
-    setTaskItems([]);
-  }, []);
-
   // useEffect(() => {
   //   let currentDateRange: Number;
   //   let currentWeek: Date;
@@ -131,9 +127,9 @@ export const TaskList = ({
     { id: 6, name: "All" },
   ];
 
-  const pillState = useFormPillState({
-    baseId: "take-list-tokens",
-  });
+  // const pillState = useFormPillState({
+  //   baseId: "take-list-tokens",
+  // });
 
   return (
     <Box width={"100%"}>
@@ -144,7 +140,7 @@ export const TaskList = ({
           </Heading>
         )}
 
-        {filterTokens.length && (
+        {/* {filterTokens.length && (
           <FormPillGroup {...pillState} aria-label="hello-world">
             {filterTokens.map(({ id, name }) => (
               <FormPill
@@ -159,7 +155,7 @@ export const TaskList = ({
               />
             ))}
           </FormPillGroup>
-        )}
+        )} */}
 
         <Spacer
           height={[
