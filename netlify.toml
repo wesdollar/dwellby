@@ -1,5 +1,5 @@
 [build]
-  command = "ciinit"
+  command = "npm run ci:init"
   publish = "public"
 
 [dev]
