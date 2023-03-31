@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 import { Box } from "@twilio-paste/core/box";
 import { HorizontalLogo } from "~/components/assets/logos/horizontal-logo";
 import { Spacer } from "../components/utilities/spacer/spacer";
@@ -12,7 +13,11 @@ import { json } from "@remix-run/node";
 // TODO: fix eslint rule
 // eslint-disable-next-line no-duplicate-imports
 import type { ActionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import {
+  isRouteErrorResponse,
+  useLoaderData,
+  useRouteError,
+} from "@remix-run/react";
 import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
 import { gutters } from "~/constants/gutters";
 import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
@@ -23,9 +28,33 @@ import type { LabelProps } from "~/components/tasks/types/label-props";
 type LabelData = Pick<LabelProps, "name">;
 
 export const loader = async () => {
-  const taskItems = await db.taskItem.findMany({ include: { labels: true } });
+  let taskItems;
+
+  try {
+    taskItems = await db.taskItem.findMany({ include: { labels: true } });
+  } catch (error) {
+    throw new Response("Go to sleep", { status: 420 });
+  }
 
   return json(taskItems);
+};
+
+export const ErrorBoundary = () => {
+  const error = useRouteError();
+
+  if (error instanceof Error) {
+    return <div>An unexpected error occurred: {error.message}</div>;
+  }
+
+  if (!isRouteErrorResponse(error)) {
+    return <h1>Unknown Error</h1>;
+  }
+
+  if (error.status === 404) {
+    return <div>Note not found</div>;
+  }
+
+  return <div>An unexpected error occurred: {error.statusText}</div>;
 };
 
 export const action = async ({ request }: ActionArgs) => {
