@@ -165,7 +165,7 @@ export const TaskList = ({
           ]}
         />
 
-        {taskItems.length ? (
+        {taskItems && taskItems.length ? (
           taskItems.map(
             ({ title, dueDate, labels, statusId, id, estimatedCost }) => (
               <TaskItem
