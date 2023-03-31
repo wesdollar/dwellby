@@ -1,6 +1,8 @@
-import { Box } from "@twilio-paste/core";
-import type { FormPillStateReturn } from "@twilio-paste/core";
-import { FormPill as PasteFormPill } from "@twilio-paste/core";
+import {
+  Box,
+  FormPill as PasteFormPill,
+  FormPillStateReturn,
+} from "@twilio-paste/core";
 
 export type FormPillId = number;
 

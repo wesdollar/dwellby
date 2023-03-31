@@ -9,7 +9,7 @@ import * as build from "@remix-run/dev/server-build";
  *  - `netlifyGraphSignature`: a signature for subscription events. Will be
  *    present if a secret is set.
  */
-function getLoadContext(event, context) {
+function getLoadContext(event) {
   let rawAuthorizationString;
   let netlifyGraphToken;
 
@@ -17,16 +17,16 @@ function getLoadContext(event, context) {
     netlifyGraphToken = event.authlifyToken;
   }
 
-  const authHeader = event.headers["authorization"];
+  const authHeader = event.headers.authorization;
   const graphSignatureHeader = event.headers["x-netlify-graph-signature"];
 
   if (authHeader != null && /Bearer /gi.test(authHeader)) {
-    rawAuthorizationString = authHeader.split(" ")[1];
+    [, rawAuthorizationString] = authHeader.split(" ");
   }
 
   const loadContext = {
     clientNetlifyGraphAccessToken: rawAuthorizationString,
-    netlifyGraphToken: netlifyGraphToken,
+    netlifyGraphToken,
     netlifyGraphSignature: graphSignatureHeader,
   };
 

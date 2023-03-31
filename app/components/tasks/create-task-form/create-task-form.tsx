@@ -73,6 +73,21 @@ export const CreateTaskForm = () => {
 
   const selectDateField = "inputId";
 
+  const monthsDropdownArray = [
+    { value: "01", label: "January" },
+    { value: "02", label: "February" },
+    { value: "03", label: "March" },
+    { value: "04", label: "April" },
+    { value: "05", label: "May" },
+    { value: "06", label: "June" },
+    { value: "07", label: "July" },
+    { value: "08", label: "August" },
+    { value: "09", label: "September" },
+    { value: "10", label: "October" },
+    { value: "11", label: "November" },
+    { value: "12", label: "December" },
+  ];
+
   return (
     <Form method="post" onSubmit={() => setLabels([])}>
       <Box>
@@ -101,20 +116,7 @@ export const CreateTaskForm = () => {
             >
               <Column marginLeft={"space0"} paddingLeft={"space0"} span={4}>
                 <Select id={selectDateField} name="month">
-                  {[
-                    { value: "01", label: "January" },
-                    { value: "02", label: "February" },
-                    { value: "03", label: "March" },
-                    { value: "04", label: "April" },
-                    { value: "05", label: "May" },
-                    { value: "06", label: "June" },
-                    { value: "07", label: "July" },
-                    { value: "08", label: "August" },
-                    { value: "09", label: "September" },
-                    { value: "10", label: "October" },
-                    { value: "11", label: "November" },
-                    { value: "12", label: "December" },
-                  ].map(({ value, label }) => (
+                  {monthsDropdownArray.map(({ value, label }) => (
                     <Option value={value} key={`${value}-month-option`}>
                       {label}
                     </Option>

@@ -113,7 +113,7 @@ async function main() {
     },
     {
       title: "Clean the House",
-      dueDate: new Date("2023-04-01"),
+      dueDate: new Date("2023-04-05"),
       note: "The house is a mess.",
       estimatedCost: "2,431",
       status: {
@@ -133,6 +133,63 @@ async function main() {
     {
       title: "Mow the Yard",
       dueDate: new Date("2023-04-20"),
+      note: "The grass is getting long.",
+      estimatedCost: "2,433",
+      status: {
+        connect: {
+          id: firstStatus.id,
+        },
+      },
+      labels: {
+        connect: [{ id: firstLabel.id }, { id: thirdLabel.id }],
+      },
+      effort: {
+        connect: {
+          id: 2,
+        },
+      },
+    },
+    {
+      title: "Purchase Christmas Tree",
+      dueDate: new Date("2023-06-01"),
+      note: "The grass is getting long.",
+      estimatedCost: "2,433",
+      status: {
+        connect: {
+          id: firstStatus.id,
+        },
+      },
+      labels: {
+        connect: [{ id: firstLabel.id }, { id: thirdLabel.id }],
+      },
+      effort: {
+        connect: {
+          id: 2,
+        },
+      },
+    },
+    {
+      title: "Purchase Christmas Tree",
+      dueDate: new Date("2023-12-01"),
+      note: "The grass is getting long.",
+      estimatedCost: "2,433",
+      status: {
+        connect: {
+          id: firstStatus.id,
+        },
+      },
+      labels: {
+        connect: [{ id: firstLabel.id }, { id: thirdLabel.id }],
+      },
+      effort: {
+        connect: {
+          id: 2,
+        },
+      },
+    },
+    {
+      title: "Purchase Christmas Tree",
+      dueDate: new Date("2024-12-01"),
       note: "The grass is getting long.",
       estimatedCost: "2,433",
       status: {

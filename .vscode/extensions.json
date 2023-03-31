@@ -16,7 +16,8 @@
     "prisma.prisma",
     "xyc.vscode-mdx-preview",
     "nixon.env-cmd-file-syntax",
-    "arcanis.vscode-zipfs"
+    "arcanis.vscode-zipfs",
+    "orta.vscode-jest"
   ],
   "unwantedRecommendations": []
 }

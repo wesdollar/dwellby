@@ -130,17 +130,11 @@ export const Login = () => {
           <Form method="post">
             <FormControl>
               <Label htmlFor={emailInputName}>Email</Label>
-              <Input
-                defaultValue="github@dollardojo.tech"
-                type={emailInputName}
-                name={emailInputName}
-                required
-              />
+              <Input type={emailInputName} name={emailInputName} required />
             </FormControl>
             <FormControl>
               <Label htmlFor={passwordInputName}>Password</Label>
               <Input
-                defaultValue="pass"
                 type={passwordInputName}
                 name={passwordInputName}
                 autoComplete="current-password"

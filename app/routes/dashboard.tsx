@@ -95,13 +95,14 @@ export const Dashboard = () => {
     typeof loader
   >() as unknown as TaskItemsRequest;
 
-  let allTasksCount = 0;
+  const allTasksCount = taskItems.length;
+  let upcomingTasks = 0;
   let pastDueTasksCount = 0;
   let completedTasksCount = 0;
 
   taskItems.forEach((taskItem) => {
     if (taskItem.statusId === 1) {
-      allTasksCount++;
+      upcomingTasks++;
     }
 
     if (taskItem.statusId === 2) {
