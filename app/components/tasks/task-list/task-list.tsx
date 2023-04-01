@@ -12,10 +12,10 @@ import { TaskItem, type LimitedTaskItemProps } from "../task-item/task-item";
 import { useState, useEffect } from "react";
 import { colors } from "~/constants/colors";
 import { styled } from "@twilio-paste/styling-library";
-import addWeek from "date-fns/addWeeks";
-import addMonth from "date-fns/addMonths";
-import addQuarter from "date-fns/addQuarters";
-import addYear from "date-fns/addYears";
+import addWeeks from "date-fns/addWeeks";
+import addMonths from "date-fns/addMonths";
+import addQuarters from "date-fns/addQuarters";
+import addYears from "date-fns/addYears";
 import { parseISO } from "date-fns";
 
 interface TaskListProps {
@@ -60,7 +60,7 @@ export const TaskList = ({
         setTaskItems(updatedTaskItems);
         break;
       case 2: // this week
-        currentWeek = addWeek(Date.now(), 1);
+        currentWeek = addWeeks(Date.now(), 1);
 
         updatedTaskItems = allTaskItems.filter(
           (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentWeek
@@ -69,7 +69,7 @@ export const TaskList = ({
         setTaskItems(updatedTaskItems);
         break;
       case 3: // this month
-        currentMonth = addMonth(Date.now(), 1);
+        currentMonth = addMonths(Date.now(), 1);
 
         updatedTaskItems = allTaskItems.filter(
           (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentMonth
@@ -78,7 +78,7 @@ export const TaskList = ({
         setTaskItems(updatedTaskItems);
         break;
       case 4: // this quarter
-        currentQuarter = addQuarter(Date.now(), 1);
+        currentQuarter = addQuarters(Date.now(), 1);
 
         updatedTaskItems = allTaskItems.filter(
           (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentQuarter
@@ -87,7 +87,7 @@ export const TaskList = ({
         setTaskItems(updatedTaskItems);
         break;
       case 5: // this year
-        currentYear = addYear(Date.now(), 1);
+        currentYear = addYears(Date.now(), 1);
 
         updatedTaskItems = allTaskItems.filter(
           (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentYear
