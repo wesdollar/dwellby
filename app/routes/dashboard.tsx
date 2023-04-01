@@ -9,10 +9,7 @@ import { UserProfileBox } from "~/components/profiles/user-profile-box/user-prof
 import { CreateTasksButton } from "~/components/tasks/create-tasks-button/create-tasks-button";
 import { PageWrapper } from "~/components/utilities/page-wrapper/page-wrapper";
 import { db } from "~/utils/db.server";
-import { json } from "@remix-run/node";
-// TODO: fix eslint rule
-// eslint-disable-next-line no-duplicate-imports
-import type { ActionArgs } from "@remix-run/node";
+import { json, type ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
 import { gutters } from "~/constants/gutters";

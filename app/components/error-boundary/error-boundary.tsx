@@ -1,5 +1,6 @@
 /* eslint-disable */
 // @ts-nocheck
+import React from "react";
 
 export class ErrorBoundary extends React.Component {
   constructor(props) {
