@@ -12,7 +12,14 @@ import { TaskItem, type LimitedTaskItemProps } from "../task-item/task-item";
 import { useState, useEffect } from "react";
 import { colors } from "~/constants/colors";
 import { styled } from "@twilio-paste/styling-library";
-import { parseISO, addWeeks, addMonths, addQuarters, addYears } from "date-fns";
+import {
+  parseISO,
+  addWeeks,
+  addMonths,
+  addQuarters,
+  addYears,
+  compareAsc,
+} from "date-fns";
 
 interface TaskListProps {
   taskItems: LimitedTaskItemProps[];
@@ -25,6 +32,20 @@ const StyledEmptyStateMessage = styled.div({
   },
 });
 
+const sortToStateByDate = (
+  unsortedArray: LimitedTaskItemProps[],
+  setUpdatedArray: React.Dispatch<React.SetStateAction<LimitedTaskItemProps[]>>
+) => {
+  const sortedArray = unsortedArray.sort((a, b) => {
+    return compareAsc(
+      parseISO(a.dueDate.toString()),
+      parseISO(b.dueDate.toString())
+    );
+  });
+
+  return setUpdatedArray(sortedArray);
+};
+
 export const TaskList = ({
   taskItems: taskItemsFromProps,
   title,
@@ -36,12 +57,17 @@ export const TaskList = ({
   useEffect(() => {
     let currentDateRange: Number;
     let currentWeek: Date;
-    let updatedTaskItems;
+    let updatedTaskItems: LimitedTaskItemProps[];
     let currentMonth: Date;
     let currentQuarter: Date;
     let currentYear: Date;
     let today: Date;
+
     const allTaskItems = [...taskItemsFromProps];
+
+    allTaskItems.sort((a, b) =>
+      compareAsc(parseISO(a.dueDate.toString()), parseISO(b.dueDate.toString()))
+    );
 
     switch (activeToken) {
       case 1: // today
@@ -53,7 +79,7 @@ export const TaskList = ({
             currentDateRange === parseISO(taskItem.dueDate.toString()).getDay()
         );
 
-        setTaskItems(updatedTaskItems);
+        sortToStateByDate(updatedTaskItems, setTaskItems);
         break;
       case 2: // this week
         currentWeek = addWeeks(Date.now(), 1);
@@ -62,7 +88,7 @@ export const TaskList = ({
           (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentWeek
         );
 
-        setTaskItems(updatedTaskItems);
+        sortToStateByDate(updatedTaskItems, setTaskItems);
         break;
       case 3: // this month
         currentMonth = addMonths(Date.now(), 1);
@@ -71,7 +97,7 @@ export const TaskList = ({
           (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentMonth
         );
 
-        setTaskItems(updatedTaskItems);
+        sortToStateByDate(updatedTaskItems, setTaskItems);
         break;
       case 4: // this quarter
         currentQuarter = addQuarters(Date.now(), 1);
@@ -80,7 +106,7 @@ export const TaskList = ({
           (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentQuarter
         );
 
-        setTaskItems(updatedTaskItems);
+        sortToStateByDate(updatedTaskItems, setTaskItems);
         break;
       case 5: // this year
         currentYear = addYears(Date.now(), 1);
@@ -89,7 +115,7 @@ export const TaskList = ({
           (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentYear
         );
 
-        setTaskItems(updatedTaskItems);
+        sortToStateByDate(updatedTaskItems, setTaskItems);
         break;
       case 6: // all
         setTaskItems(allTaskItems);

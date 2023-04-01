@@ -15,8 +15,8 @@ import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
 import { gutters } from "~/constants/gutters";
 import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
 import { PrismaClient } from "@prisma/client";
-import type { TaskItemProps } from "../components/tasks/types/task-item-props";
 import type { LabelProps } from "~/components/tasks/types/label-props";
+import { type TaskItemProps } from "~/components/tasks/types/task-item-props";
 
 type LabelData = Pick<LabelProps, "name">;
 
@@ -64,11 +64,11 @@ export const action = async ({ request }: ActionArgs) => {
     labelIndex++;
   });
 
-  const createData: LabelData[] = [];
+  const labelsData: LabelData[] = [];
 
   if (labelsToCreate && labelsToCreate.length) {
     labelsToCreate.forEach((label: any) => {
-      createData.push({ name: label });
+      labelsData.push({ name: label });
     });
   }
 
@@ -83,7 +83,7 @@ export const action = async ({ request }: ActionArgs) => {
           `${body?.get("month")}/${body?.get("day")}/${body?.get("year")}`
         ),
         labels: {
-          create: createData,
+          create: labelsData,
         },
         statusId: 1,
       },
@@ -93,25 +93,32 @@ export const action = async ({ request }: ActionArgs) => {
   } catch (error) {}
 };
 
+interface MetricTilesObject {
+  title: string;
+  variant: string;
+  count: number;
+  id: number;
+}
+
+type MetricTiles = MetricTilesObject[];
+
+type TaskItems = TaskItemProps[];
+
 export const Dashboard = () => {
   const layoutGridGutters = ["space10", "space30", "space60"] as Space;
-  const taskItems = useLoaderData() as unknown as TaskItemProps[];
+  const taskItems = useLoaderData() as unknown as TaskItems;
 
   const allTasksCount = taskItems.length;
   let pastDueTasksCount = 0;
-  let completedTasksCount = 0;
+  const completedTasksCount = 0;
 
   taskItems.forEach((taskItem) => {
     if (taskItem.statusId === 2) {
       pastDueTasksCount++;
     }
-
-    if (taskItem.statusId === 3) {
-      completedTasksCount++;
-    }
   });
 
-  const metricTiles = [
+  const metricTiles: MetricTiles = [
     {
       title: "All Tasks",
       variant: "brandPrimary",
