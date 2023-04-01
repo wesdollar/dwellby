@@ -48,11 +48,11 @@ export const TaskItem = ({
       </Box>
       <Box>
         <DisplayPillGroup aria-label="Task Item">
-          {/* {labels.length
+          {labels.length
             ? labels.map(({ name, id }) => (
                 <DisplayPill key={`labelPill-${id}`}>{name}</DisplayPill>
               ))
-            : null} */}
+            : null}
         </DisplayPillGroup>
       </Box>
     </Stack>
