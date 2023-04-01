@@ -13,17 +13,14 @@ import { json } from "@remix-run/node";
 // TODO: fix eslint rule
 // eslint-disable-next-line no-duplicate-imports
 import type { ActionArgs } from "@remix-run/node";
-import {
-  isRouteErrorResponse,
-  useLoaderData,
-  useRouteError,
-} from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
 import { gutters } from "~/constants/gutters";
 import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
 import { PrismaClient } from "@prisma/client";
 import type { TaskItemProps } from "../components/tasks/types/task-item-props";
 import type { LabelProps } from "~/components/tasks/types/label-props";
+import ErrorBoundary from "./components/error-boundary/error-boundary";
 
 type LabelData = Pick<LabelProps, "name">;
 
@@ -37,24 +34,6 @@ export const loader = async () => {
   }
 
   return json(taskItems);
-};
-
-export const ErrorBoundary = () => {
-  const error = useRouteError();
-
-  if (error instanceof Error) {
-    return <div>An unexpected error occurred: {error.message}</div>;
-  }
-
-  if (!isRouteErrorResponse(error)) {
-    return <h1>Unknown Error</h1>;
-  }
-
-  if (error.status === 404) {
-    return <div>Note not found</div>;
-  }
-
-  return <div>An unexpected error occurred: {error.statusText}</div>;
 };
 
 export const action = async ({ request }: ActionArgs) => {
@@ -158,7 +137,7 @@ export const Dashboard = () => {
   ];
 
   return (
-    <>
+    <ErrorBoundary>
       <PageWrapper>
         <Box
           marginTop={[
@@ -235,7 +214,7 @@ export const Dashboard = () => {
           </Grid>
         </Box>
       </PageWrapper>
-    </>
+    </ErrorBoundary>
   );
 };
 
