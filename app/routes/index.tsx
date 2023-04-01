@@ -32,7 +32,7 @@ export const Index = () => (
         <Column>
           <Box>
             <Paragraph>
-              Dwellby is a pet project made by the married couple over at
+              Dwellby is a pet project made by the married couple over at{" "}
               <Anchor href="DollarDojo.tech">DollarDojo.tech</Anchor>. The
               entire development of this project is being live streamed on the{" "}
               <Anchor href="https://twitch.tv/dollardojo">
@@ -44,7 +44,7 @@ export const Index = () => (
               Dwellby is a simple, quick way to keep track of tasks that need to
               be done around the house. It's more so a portfolio piece than
               anything else and a mechanism for us to learn new technologies. We
-              hope to be launching soon. In the meantime, come play with us on
+              hope to be launching soon. In the meantime, come play with us on{" "}
               <Anchor href="https://twitch.tv/dollardojo">
                 DollarDojo Twitch
               </Anchor>{" "}
