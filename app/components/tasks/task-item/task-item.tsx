@@ -55,10 +55,11 @@ export const TaskItem = ({
         <Box>{formattedDueDate}</Box>
         <Box>
           <DisplayPillGroup aria-label="Task Item">
-            {labels.length &&
-              labels.map(({ name, id }) => (
-                <DisplayPill key={`labelPill-${id}`}>{name}</DisplayPill>
-              ))}
+            {labels.length
+              ? labels.map(({ name, id }) => (
+                  <DisplayPill key={`labelPill-${id}`}>{name}</DisplayPill>
+                ))
+              : ""}
           </DisplayPillGroup>
         </Box>
       </Stack>
