@@ -30,7 +30,7 @@ async function main() {
   await db.user.create({
     data: {
       email: "github@dollardojo.tech",
-      password: await hash("password", SALT_ROUNDS),
+      password: await hash("thisismypassword", SALT_ROUNDS),
     },
   });
 
