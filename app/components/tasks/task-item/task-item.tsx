@@ -7,6 +7,7 @@ import {
 } from "@twilio-paste/core";
 import { colors } from "~/constants/colors";
 import type { TaskItemProps } from "../types/task-item-props";
+import { format } from "date-fns";
 
 export type LimitedTaskItemProps = Omit<
   TaskItemProps,
@@ -20,10 +21,7 @@ export const TaskItem = ({
   taskId,
   statusId,
 }: LimitedTaskItemProps) => {
-  const dueDateFormatted = new Date(dueDate).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
+  const dueDateFormatted = format(new Date(dueDate), "MMM d");
 
   return (
     <Box
