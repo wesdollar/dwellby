@@ -80,18 +80,10 @@ export const TaskList = ({
           ]}
         />
 
-        {/* {taskItems.length ? (
+        {taskItems.length ? (
           taskItems.map(
             ({ title, dueDate, labels, statusId, id, estimatedCost }) => (
-              <TaskItem
-                key={`takeItem-${id}`}
-                title={title}
-                dueDate={dueDate}
-                labels={labels}
-                taskId={id}
-                statusId={statusId}
-                estimatedCost={estimatedCost}
-              />
+              <Box>Hello, world!</Box>
             )
           )
         ) : (
@@ -107,7 +99,7 @@ export const TaskList = ({
               No tasks were found for this period. Enjoy your time off!
             </Heading>
           </StyledEmptyStateMessage>
-        )} */}
+        )}
       </InverseCard>
     </Box>
   );
