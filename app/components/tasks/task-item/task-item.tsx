@@ -7,7 +7,7 @@ import {
 } from "@twilio-paste/core";
 import { colors } from "~/constants/colors";
 import type { TaskItemProps } from "../types/task-item-props";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 
 export type LimitedTaskItemProps = Omit<
   TaskItemProps,
@@ -21,7 +21,7 @@ export const TaskItem = ({
   taskId,
   statusId,
 }: LimitedTaskItemProps) => {
-  // const dueDateFormatted = format(new Date(dueDate), "MMM d");
+  const dueDateFormatted = format(parseISO(dueDate.toString()), "MMM d");
 
   return (
     <Box
@@ -43,7 +43,7 @@ export const TaskItem = ({
         </Heading>
       )}
       <Stack as="div" orientation={"horizontal"} spacing="space40">
-        <Box></Box>
+        <Box>{dueDateFormatted}</Box>
         <Box>
           <DisplayPillGroup aria-label="Task Item">
             {labels.length &&
