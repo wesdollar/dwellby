@@ -79,7 +79,7 @@ export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
           ]}
         />
 
-        {/* {taskItemsProps &&
+        {taskItemsProps &&
           taskItemsProps.length &&
           taskItemsProps.map(
             ({ title, dueDate, labels, statusId, id, estimatedCost }) => (
@@ -93,7 +93,7 @@ export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
                 estimatedCost={estimatedCost}
               />
             )
-          )} */}
+          )}
       </InverseCard>
     </Box>
   );

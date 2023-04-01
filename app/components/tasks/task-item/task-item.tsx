@@ -40,19 +40,19 @@ export const TaskItem = ({
     )}
     <Stack as="div" orientation={"horizontal"} spacing="space40">
       <Box>
-        {new Date(dueDate).toLocaleDateString("en-US", {
+        {/* {new Date(dueDate).toLocaleDateString("en-US", {
           year: "numeric",
           month: "short",
           day: "numeric",
-        })}
+        })} */}
       </Box>
       <Box>
         <DisplayPillGroup aria-label="Task Item">
-          {labels.length
+          {/* {labels.length
             ? labels.map(({ name, id }) => (
                 <DisplayPill key={`labelPill-${id}`}>{name}</DisplayPill>
               ))
-            : null}
+            : null} */}
         </DisplayPillGroup>
       </Box>
     </Stack>
