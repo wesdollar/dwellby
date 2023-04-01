@@ -8,6 +8,7 @@ import {
 import { colors } from "~/constants/colors";
 import type { TaskItemProps } from "../types/task-item-props";
 import { format, parseISO } from "date-fns";
+import { useState } from "react";
 
 export type LimitedTaskItemProps = Omit<
   TaskItemProps,
@@ -21,7 +22,9 @@ export const TaskItem = ({
   taskId,
   statusId,
 }: LimitedTaskItemProps) => {
-  const dueDateFormatted = "";
+  const [formattedDueDate, setFormattedDueDate] = useState(
+    dueDate ? format(parseISO(dueDate.toString()), "MMM d") : ""
+  );
 
   return (
     <Box
@@ -43,7 +46,7 @@ export const TaskItem = ({
         </Heading>
       )}
       <Stack as="div" orientation={"horizontal"} spacing="space40">
-        <Box>{dueDateFormatted}</Box>
+        <Box>{formattedDueDate}</Box>
         <Box>
           <DisplayPillGroup aria-label="Task Item">
             {labels.length &&
