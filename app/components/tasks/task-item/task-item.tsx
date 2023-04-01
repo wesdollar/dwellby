@@ -21,7 +21,9 @@ export const TaskItem = ({
   taskId,
   statusId,
 }: LimitedTaskItemProps) => {
-  const dueDateFormatted = "May 02";
+  const dueDateFormatted = dueDate
+    ? format(parseISO(dueDate.toString()), "MMM d")
+    : "";
 
   return (
     <Box
