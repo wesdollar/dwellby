@@ -33,9 +33,7 @@ export const loader = async () => {
   try {
     taskItems = await db.taskItem.findMany({ include: { labels: true } });
   } catch (error) {
-    console.log("hit the loader error boundary");
-
-    throw new Response("Go to sleep", { status: 420 });
+    throw new Response("hit the loader error boundary", { status: 420 });
   }
 
   return json(taskItems);
@@ -127,13 +125,8 @@ export const Dashboard = () => {
   const allTasksCount = taskItems.length;
   let pastDueTasksCount = 0;
   let completedTasksCount = 0;
-  let upcomingTasks = 0;
 
   taskItems.forEach((taskItem) => {
-    if (taskItem.statusId === 1) {
-      upcomingTasks++;
-    }
-
     if (taskItem.statusId === 2) {
       pastDueTasksCount++;
     }
@@ -224,7 +217,7 @@ export const Dashboard = () => {
               <CreateTaskForm />
             </Column>
             <Column span={4}>
-              <TaskList taskItemsProps={taskItems} />
+              <TaskList taskItems={taskItems} />
             </Column>
             <Column span={4}>
               <Grid gutter={layoutGridGutters}>

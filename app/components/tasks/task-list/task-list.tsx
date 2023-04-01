@@ -8,7 +8,7 @@ import { FormPill } from "~/components/form/form-pill/form-pill";
 import { InverseCard } from "~/components/ui/inverse-card/inverse-card";
 import { Spacer } from "~/components/utilities/spacer/spacer";
 import { gutters } from "~/constants/gutters";
-import { TaskItem, LimitedTaskItemProps } from "../task-item/task-item";
+import { TaskItem, type LimitedTaskItemProps } from "../task-item/task-item";
 import { useState, useEffect } from "react";
 import { colors } from "~/constants/colors";
 import { styled } from "@twilio-paste/styling-library";
@@ -16,21 +16,94 @@ import addWeek from "date-fns/addWeeks";
 import addMonth from "date-fns/addMonths";
 import addQuarter from "date-fns/addQuarters";
 import addYear from "date-fns/addYears";
+import { parseISO } from "date-fns";
 
 interface TaskListProps {
-  taskItemsProps: LimitedTaskItemProps[];
+  taskItems: LimitedTaskItemProps[];
   title?: string;
 }
 
-// const StyledEmptyStateMessage = styled.div({
-//   h4: {
-//     color: colors.text.black,
-//   },
-// });
+const StyledEmptyStateMessage = styled.div({
+  h4: {
+    color: colors.text.black,
+  },
+});
 
-export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
+export const TaskList = ({
+  taskItems: taskItemsFromProps,
+  title,
+}: TaskListProps) => {
   const weeklyFilterValue = 2;
   const [activeToken, setActiveToken] = useState(weeklyFilterValue);
+  const [taskItems, setTaskItems] = useState(taskItemsFromProps);
+
+  useEffect(() => {
+    let currentDateRange: Number;
+    let currentWeek: Date;
+    let updatedTaskItems;
+    let currentMonth: Date;
+    let currentQuarter: Date;
+    let currentYear: Date;
+    let today: Date;
+    const allTaskItems = [...taskItemsFromProps];
+
+    switch (activeToken) {
+      case 1: // today
+        today = parseISO(Date.now().toString());
+        currentDateRange = today.getDay();
+
+        updatedTaskItems = allTaskItems.filter(
+          (taskItem) =>
+            currentDateRange === parseISO(taskItem.dueDate.toString()).getDay()
+        );
+
+        setTaskItems(updatedTaskItems);
+        break;
+      case 2: // this week
+        currentWeek = addWeek(Date.now(), 1);
+
+        updatedTaskItems = allTaskItems.filter(
+          (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentWeek
+        );
+
+        setTaskItems(updatedTaskItems);
+        break;
+      case 3: // this month
+        currentMonth = addMonth(Date.now(), 1);
+
+        updatedTaskItems = allTaskItems.filter(
+          (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentMonth
+        );
+
+        setTaskItems(updatedTaskItems);
+        break;
+      case 4: // this quarter
+        currentQuarter = addQuarter(Date.now(), 1);
+
+        updatedTaskItems = allTaskItems.filter(
+          (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentQuarter
+        );
+
+        setTaskItems(updatedTaskItems);
+        break;
+      case 5: // this year
+        currentYear = addYear(Date.now(), 1);
+
+        updatedTaskItems = allTaskItems.filter(
+          (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentYear
+        );
+
+        setTaskItems(updatedTaskItems);
+        break;
+      case 6: // all
+        setTaskItems(allTaskItems);
+        break;
+      default:
+      //
+    }
+  }, [activeToken]);
+
+  console.log(taskItems);
 
   const filterTokens = [
     { id: 1, name: "Day" },
@@ -60,9 +133,9 @@ export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
               <FormPill
                 key={`filterToken-${id}`}
                 pillState={pillState}
-                handleSetActiveToken={(token) => {
-                  setActiveToken(parseInt(token.toString(), 10));
-                }}
+                handleSetActiveToken={(token) =>
+                  setActiveToken(parseInt(token.toString(), 10))
+                }
                 name={name}
                 activeToken={activeToken}
                 id={id}
@@ -79,9 +152,8 @@ export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
           ]}
         />
 
-        {taskItemsProps &&
-          taskItemsProps.length &&
-          taskItemsProps.map(
+        {taskItems.length ? (
+          taskItems.map(
             ({ title, dueDate, labels, statusId, id, estimatedCost }) => (
               <TaskItem
                 key={`takeItem-${id}`}
@@ -93,7 +165,21 @@ export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
                 estimatedCost={estimatedCost}
               />
             )
-          )}
+          )
+        ) : (
+          <StyledEmptyStateMessage>
+            <Spacer
+              height={[
+                gutters.smBreakpoint.lg,
+                gutters.mdBreakpoint.lg,
+                gutters.lgBreakpoint.md,
+              ]}
+            />
+            <Heading as="h4" variant="heading40">
+              No tasks were found for this period. Enjoy your time off!
+            </Heading>
+          </StyledEmptyStateMessage>
+        )}
       </InverseCard>
     </Box>
   );
