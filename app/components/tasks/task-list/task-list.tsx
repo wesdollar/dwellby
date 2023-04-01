@@ -61,7 +61,7 @@ export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
                 key={`filterToken-${id}`}
                 pillState={pillState}
                 handleSetActiveToken={(token) => {
-                  setActiveToken(parseInt(token.toString(), 10));
+                  // setActiveToken(parseInt(token.toString(), 10));
                 }}
                 name={name}
                 activeToken={activeToken}
