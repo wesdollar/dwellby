@@ -8,7 +8,7 @@ import {
   Scripts,
   ScrollRestoration,
 } from "@remix-run/react";
-import ErrorBoundary from "./components/error-boundary/error-boundary";
+import ErrorBoundary from "~/components/error-boundary/error-boundary";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
