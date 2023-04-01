@@ -12,11 +12,7 @@ import { TaskItem, type LimitedTaskItemProps } from "../task-item/task-item";
 import { useState, useEffect } from "react";
 import { colors } from "~/constants/colors";
 import { styled } from "@twilio-paste/styling-library";
-import addWeeks from "date-fns/addWeeks";
-import addMonths from "date-fns/addMonths";
-import addQuarters from "date-fns/addQuarters";
-import addYears from "date-fns/addYears";
-import { parseISO } from "date-fns";
+import { parseISO, addWeeks, addMonths, addQuarters, addYears } from "date-fns";
 
 interface TaskListProps {
   taskItems: LimitedTaskItemProps[];
