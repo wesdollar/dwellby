@@ -26,7 +26,9 @@ export const TaskItem = ({
 
   useEffect(
     () =>
-      setFormattedDueDate(dueDate ? format(parseISO(dueDate), "MMM d") : ""),
+      setFormattedDueDate(
+        dueDate ? format(parseISO(dueDate.toString()), "MMM d") : ""
+      ),
     []
   );
 
