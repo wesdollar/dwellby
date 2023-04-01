@@ -17,7 +17,6 @@ import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-
 import { PrismaClient } from "@prisma/client";
 import type { TaskItemProps } from "../components/tasks/types/task-item-props";
 import type { LabelProps } from "~/components/tasks/types/label-props";
-import ErrorBoundary from "~/components/error-boundary/error-boundary";
 
 type LabelData = Pick<LabelProps, "name">;
 
@@ -134,7 +133,7 @@ export const Dashboard = () => {
   ];
 
   return (
-    <ErrorBoundary>
+    <>
       <PageWrapper>
         <Box
           marginTop={[
@@ -211,8 +210,26 @@ export const Dashboard = () => {
           </Grid>
         </Box>
       </PageWrapper>
-    </ErrorBoundary>
+    </>
   );
 };
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (error instanceof Error) {
+    return <div>An unexpected error occurred: {error.message}</div>;
+  }
+
+  if (!isRouteErrorResponse(error)) {
+    return <h1>Unknown Error</h1>;
+  }
+
+  if (error.status === 404) {
+    return <div>Note not found</div>;
+  }
+
+  return <div>An unexpected error occurred: {error.statusText}</div>;
+}
 
 export default Dashboard;
