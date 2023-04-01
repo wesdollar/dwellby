@@ -55,7 +55,7 @@ export const TaskList = ({
           </Heading>
         )}
 
-        {filterTokens.length && (
+        {/* {filterTokens.length && (
           <FormPillGroup {...pillState} aria-label="hello-world">
             {filterTokens.map(({ id, name }) => (
               <FormPill
@@ -70,7 +70,7 @@ export const TaskList = ({
               />
             ))}
           </FormPillGroup>
-        )}
+        )} */}
 
         <Spacer
           height={[
