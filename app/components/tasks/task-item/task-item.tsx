@@ -8,7 +8,7 @@ import {
 import { colors } from "~/constants/colors";
 import type { TaskItemProps } from "../types/task-item-props";
 import { format, parseISO } from "date-fns";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export type LimitedTaskItemProps = Omit<
   TaskItemProps,
@@ -22,8 +22,12 @@ export const TaskItem = ({
   taskId,
   statusId,
 }: LimitedTaskItemProps) => {
-  const [formattedDueDate, setFormattedDueDate] = useState(
-    dueDate ? format(parseISO(dueDate.toString()), "MMM d") : ""
+  const [formattedDueDate, setFormattedDueDate] = useState("");
+
+  useEffect(
+    () =>
+      setFormattedDueDate(dueDate ? format(parseISO(dueDate), "MMM d") : ""),
+    []
   );
 
   return (
