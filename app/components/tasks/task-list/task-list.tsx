@@ -22,11 +22,11 @@ interface TaskListProps {
   title?: string;
 }
 
-const StyledEmptyStateMessage = styled.div({
-  h4: {
-    color: colors.text.black,
-  },
-});
+// const StyledEmptyStateMessage = styled.div({
+//   h4: {
+//     color: colors.text.black,
+//   },
+// });
 
 export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
   const weeklyFilterValue = 2;
@@ -79,7 +79,7 @@ export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
           ]}
         />
 
-        {taskItemsProps &&
+        {/* {taskItemsProps &&
           taskItemsProps.length &&
           taskItemsProps.map(
             ({ title, dueDate, labels, statusId, id, estimatedCost }) => (
@@ -93,7 +93,7 @@ export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
                 estimatedCost={estimatedCost}
               />
             )
-          )}
+          )} */}
       </InverseCard>
     </Box>
   );
