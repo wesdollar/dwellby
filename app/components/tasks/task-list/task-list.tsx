@@ -61,7 +61,7 @@ export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
                 key={`filterToken-${id}`}
                 pillState={pillState}
                 handleSetActiveToken={(token) => {
-                  // setActiveToken(parseInt(token.toString(), 10));
+                  setActiveToken(parseInt(token.toString(), 10));
                 }}
                 name={name}
                 activeToken={activeToken}
@@ -79,7 +79,8 @@ export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
           ]}
         />
 
-        {taskItemsProps && taskItemsProps.length ? (
+        {taskItemsProps &&
+          taskItemsProps.length &&
           taskItemsProps.map(
             ({ title, dueDate, labels, statusId, id, estimatedCost }) => (
               <TaskItem
@@ -92,21 +93,7 @@ export const TaskList = ({ taskItemsProps, title }: TaskListProps) => {
                 estimatedCost={estimatedCost}
               />
             )
-          )
-        ) : (
-          <StyledEmptyStateMessage>
-            <Spacer
-              height={[
-                gutters.smBreakpoint.lg,
-                gutters.mdBreakpoint.lg,
-                gutters.lgBreakpoint.md,
-              ]}
-            />
-            <Heading as="h4" variant="heading40">
-              No tasks were found for this period. Enjoy your time off!
-            </Heading>
-          </StyledEmptyStateMessage>
-        )}
+          )}
       </InverseCard>
     </Box>
   );
