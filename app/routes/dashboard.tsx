@@ -20,7 +20,7 @@ import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-
 import { PrismaClient } from "@prisma/client";
 import type { TaskItemProps } from "../components/tasks/types/task-item-props";
 import type { LabelProps } from "~/components/tasks/types/label-props";
-import ErrorBoundary from "./components/error-boundary/error-boundary";
+import ErrorBoundary from "~/components/error-boundary/error-boundary";
 
 type LabelData = Pick<LabelProps, "name">;
 
