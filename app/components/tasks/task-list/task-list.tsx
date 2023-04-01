@@ -99,11 +99,9 @@ export const TaskList = ({
         setTaskItems(allTaskItems);
         break;
       default:
-      //
+        setTaskItems(allTaskItems);
     }
   }, [activeToken]);
-
-  console.log(taskItems);
 
   const filterTokens = [
     { id: 1, name: "Day" },
