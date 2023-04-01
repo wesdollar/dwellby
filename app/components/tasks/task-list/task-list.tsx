@@ -55,7 +55,7 @@ export const TaskList = ({
           </Heading>
         )}
 
-        {/* {filterTokens.length && (
+        {filterTokens.length && (
           <FormPillGroup {...pillState} aria-label="hello-world">
             {filterTokens.map(({ id, name }) => (
               <FormPill
@@ -70,7 +70,7 @@ export const TaskList = ({
               />
             ))}
           </FormPillGroup>
-        )} */}
+        )}
 
         <Spacer
           height={[
@@ -80,7 +80,7 @@ export const TaskList = ({
           ]}
         />
 
-        {taskItems.length ? (
+        {/* {taskItems.length ? (
           taskItems.map(
             ({ title, dueDate, labels, statusId, id, estimatedCost }) => (
               <TaskItem
@@ -107,7 +107,7 @@ export const TaskList = ({
               No tasks were found for this period. Enjoy your time off!
             </Heading>
           </StyledEmptyStateMessage>
-        )}
+        )} */}
       </InverseCard>
     </Box>
   );
