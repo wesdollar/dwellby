@@ -21,7 +21,7 @@ export const TaskItem = ({
   taskId,
   statusId,
 }: LimitedTaskItemProps) => {
-  const dueDateFormatted = format(new Date(dueDate), "MMM d");
+  // const dueDateFormatted = format(new Date(dueDate), "MMM d");
 
   return (
     <Box
@@ -43,7 +43,7 @@ export const TaskItem = ({
         </Heading>
       )}
       <Stack as="div" orientation={"horizontal"} spacing="space40">
-        <Box>{dueDateFormatted}</Box>
+        <Box></Box>
         <Box>
           <DisplayPillGroup aria-label="Task Item">
             {labels.length &&
