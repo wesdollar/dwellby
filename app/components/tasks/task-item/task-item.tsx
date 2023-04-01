@@ -22,7 +22,7 @@ export const TaskItem = ({
   statusId,
 }: LimitedTaskItemProps) => {
   const dueDateFormatted = dueDate
-    ? format(parseISO(dueDate.toString()), "MMM d")
+    ? format(parseISO(dueDate.toString()), "MMM d").toString()
     : "";
 
   return (
