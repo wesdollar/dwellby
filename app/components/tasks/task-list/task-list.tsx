@@ -83,7 +83,15 @@ export const TaskList = ({
         {taskItems.length ? (
           taskItems.map(
             ({ title, dueDate, labels, statusId, id, estimatedCost }) => (
-              <Box>Hello, world!</Box>
+              <TaskItem
+                key={`takeItem-${id}`}
+                title={title}
+                dueDate={dueDate}
+                labels={labels}
+                taskId={id}
+                statusId={statusId}
+                estimatedCost={estimatedCost}
+              />
             )
           )
         ) : (
