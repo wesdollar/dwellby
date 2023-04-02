@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
   relationMode = "prisma"
 }
 
@@ -20,20 +20,22 @@ model TaskItem {
   updatedAt     DateTime @updatedAt
   status        Status   @relation(fields: [statusId], references: [id])
   effort        Effort   @relation(fields: [effortId], references: [id])
-  labels        Label[]  @relation("LabelToTaskItem")
+  labels        Label[]
+  userId        Int
+  users         User     @relation(fields: [userId], references: [id])
 }
 
 model Label {
   id        Int        @id @default(autoincrement())
-  name      String
+  name      String     @unique
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  taskItems TaskItem[] @relation("LabelToTaskItem")
+  taskItems TaskItem[]
 }
 
 model Status {
   id        Int        @id @default(autoincrement())
-  name      String
+  name      String     @unique
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   taskItems TaskItem[]
@@ -41,16 +43,17 @@ model Status {
 
 model Effort {
   id        Int        @id @default(autoincrement())
-  name      String
+  name      String     @unique
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   TaskItem  TaskItem[]
 }
 
 model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
+  id        Int        @id @default(autoincrement())
+  email     String     @unique
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  taskItems TaskItem[]
 }

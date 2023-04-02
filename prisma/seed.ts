@@ -1,221 +1,89 @@
-import { PrismaClient } from "@prisma/client";
 import { hash } from "bcrypt";
 import { SALT_ROUNDS } from "./SALT_ROUNDS";
 
+const { PrismaClient } = require("@prisma/client");
 const db = new PrismaClient();
 
-type Task = {
-  title: string;
-  note?: string;
-  dueDate: Date;
-  estimatedCost: string;
-  status: {
-    connect: {
-      id: number;
-    };
-  };
-  labels: {
-    connect: {
-      id: number;
-    }[];
-  };
-  effort: {
-    connect: {
-      id: number;
-    };
-  };
-};
-
-async function main() {
-  await db.user.create({
-    data: {
-      email: "github@dollardojo.tech",
-      password: await hash("thisismypassword", SALT_ROUNDS),
-    },
-  });
-
-  const firstLabel = await db.label.create({
-    data: {
-      name: "Household",
-    },
-  });
-
-  const secondLabel = await db.label.create({
-    data: {
-      name: "Yardwork",
-    },
-  });
-
-  const thirdLabel = await db.label.create({
-    data: {
-      name: "Kitchen Tasks",
-    },
-  });
-
+export async function seed() {
   const statuses = [
-    "To Do",
-    "In Progress",
-    "Done",
-    "Blocked",
-    "Cancelled",
-    "On Hold",
+    { name: "To Do" },
+    { name: "In Progress" },
+    { name: "Done" },
+    { name: "Blocked" },
+    { name: "Cancelled" },
+    { name: "On Hold" },
   ];
 
-  const firstStatus = await db.status.create({
-    data: {
-      name: statuses[0],
-    },
-  });
+  const createdStatuses = [];
 
-  const secondStatus = await db.status.create({
-    data: {
-      name: statuses[1],
-    },
-  });
+  for (const statusData of statuses) {
+    createdStatuses.push(await db.status.create({ data: statusData }));
+  }
 
-  await db.effort.create({
-    data: {
-      name: "sm",
-    },
-  });
+  const effortSizes = [{ name: "sm" }, { name: "md" }, { name: "lg" }];
+  const createdEffortSizes = [];
 
-  await db.effort.create({
-    data: {
-      name: "md",
-    },
-  });
+  for (const effortSizeData of effortSizes) {
+    createdEffortSizes.push(await db.effort.create({ data: effortSizeData }));
+  }
 
-  await db.effort.create({
-    data: {
-      name: "lg",
-    },
-  });
+  console.log(JSON.stringify(createdStatuses, null, 2));
+  console.log(JSON.stringify(createdEffortSizes, null, 2));
 
-  const tasks: Task[] = [
+  const users = [
     {
-      title: "Take Out the Trash",
-      note: "The trash is overflowing.",
-      dueDate: new Date("2023-04-01"),
-      estimatedCost: "2,430",
-      status: {
-        connect: {
-          id: firstStatus.id,
-        },
-      },
-      labels: {
-        connect: [{ id: firstLabel.id }],
-      },
-      effort: {
-        connect: {
-          id: 2,
-        },
+      email: process.env.SEED_EMAIL_WES,
+      password: await hash(
+        process.env.SEED_PASSWORD_WES as string,
+        SALT_ROUNDS
+      ),
+      taskItems: {
+        create: [
+          {
+            title: "Mow Front Yard",
+            note: undefined,
+            dueDate: new Date("2023-04-27"),
+            estimatedCost: undefined,
+            labels: {
+              connectOrCreate: [
+                { where: { name: "Outside" }, create: { name: "Outside" } },
+                { where: { name: "Yard" }, create: { name: "Yard" } },
+              ],
+            },
+            status: { connect: { id: createdStatuses[1].id } },
+            effort: { connect: { id: createdEffortSizes[1].id } },
+          },
+          {
+            title: "Powerwash Deck",
+            note: undefined,
+            dueDate: new Date("2023-04-27"),
+            estimatedCost: undefined,
+            labels: {
+              connectOrCreate: [
+                { where: { name: "Outside" }, create: { name: "Outside" } },
+              ],
+            },
+            status: { connect: { id: createdStatuses[1].id } },
+            effort: { connect: { id: createdEffortSizes[0].id } },
+          },
+        ],
       },
     },
     {
-      title: "Clean the House",
-      dueDate: new Date("2023-04-05"),
-      note: "The house is a mess.",
-      estimatedCost: "2,431",
-      status: {
-        connect: {
-          id: secondStatus.id,
-        },
-      },
-      labels: {
-        connect: [{ id: firstLabel.id }, { id: secondLabel.id }],
-      },
-      effort: {
-        connect: {
-          id: 2,
-        },
-      },
-    },
-    {
-      title: "Mow the Yard",
-      dueDate: new Date("2023-04-20"),
-      note: "The grass is getting long.",
-      estimatedCost: "2,433",
-      status: {
-        connect: {
-          id: firstStatus.id,
-        },
-      },
-      labels: {
-        connect: [{ id: firstLabel.id }, { id: thirdLabel.id }],
-      },
-      effort: {
-        connect: {
-          id: 2,
-        },
-      },
-    },
-    {
-      title: "Purchase Christmas Tree",
-      dueDate: new Date("2023-06-01"),
-      note: "The grass is getting long.",
-      estimatedCost: "2,433",
-      status: {
-        connect: {
-          id: firstStatus.id,
-        },
-      },
-      labels: {
-        connect: [{ id: firstLabel.id }, { id: thirdLabel.id }],
-      },
-      effort: {
-        connect: {
-          id: 2,
-        },
-      },
-    },
-    {
-      title: "Purchase Christmas Tree",
-      dueDate: new Date("2023-12-01"),
-      note: "The grass is getting long.",
-      estimatedCost: "2,433",
-      status: {
-        connect: {
-          id: firstStatus.id,
-        },
-      },
-      labels: {
-        connect: [{ id: firstLabel.id }, { id: thirdLabel.id }],
-      },
-      effort: {
-        connect: {
-          id: 2,
-        },
-      },
-    },
-    {
-      title: "Purchase Christmas Tree",
-      dueDate: new Date("2024-12-01"),
-      note: "The grass is getting long.",
-      estimatedCost: "2,433",
-      status: {
-        connect: {
-          id: firstStatus.id,
-        },
-      },
-      labels: {
-        connect: [{ id: firstLabel.id }, { id: thirdLabel.id }],
-      },
-      effort: {
-        connect: {
-          id: 2,
-        },
-      },
+      email: process.env.SEED_EMAIL_LUNA,
+      password: await hash(
+        process.env.SEED_PASSWORD_LUNA as string,
+        SALT_ROUNDS
+      ),
     },
   ];
 
-  for (const task of tasks) {
-    await db.taskItem.create({
-      data: task,
-    });
+  for (const user of users) {
+    await db.user.create({ data: user });
   }
 }
 
-main()
+seed()
   .then(async () => {
     await db.$disconnect();
   })

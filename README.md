@@ -1,4 +1,4 @@
-# Welcome to Remix!
+# Welcome to Dwellby!
 
 - [Remix Docs](https://remix.run/docs)
 - [Netlify Functions](https://www.netlify.com/products/functions/)
