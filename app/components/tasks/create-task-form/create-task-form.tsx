@@ -59,7 +59,7 @@ export const CreateTaskForm = () => {
   }, []);
 
   useEffect(() => {
-    const currentYear = new Date().getFullYear();
+    const currentYear = 2023;
     const endYear = currentYear + 2;
 
     const yearOptions = [];
