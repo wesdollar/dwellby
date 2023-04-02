@@ -103,7 +103,9 @@ export const action = async ({ request }: ActionArgs) => {
     });
 
     return json(taskItem);
-  } catch (error) {}
+  } catch (error) {
+    return json({ error });
+  }
 };
 
 interface MetricTilesObject {
