@@ -97,7 +97,7 @@ export const action = async ({ request }: ActionArgs) => {
         title: (body?.get("task_title") as string) || "",
         note: (body?.get("task_notes") as string) || "",
         estimatedCost: (body?.get("estimated_cost") as string) || "",
-        effortId: parseInt((body?.get("task_effort") as string) || "1"),
+        effortId: 1,
         dueDate: parsedDueDate,
         labels: {
           create: labelsData,
