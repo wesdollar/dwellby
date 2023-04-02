@@ -91,10 +91,8 @@ export const TaskList = ({
         updatedTaskItems = allTaskItems.filter(
           (taskItem) =>
             parseISO(taskItem.dueDate.toString()) <= currentWeek &&
-            compareDesc(
-              parseISO(taskItem.dueDate.toString()),
-              new Date(Date.now())
-            ) !== 1
+            compareDesc(Date.parse(taskItem.dueDate.toString()), Date.now()) !==
+              1
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
@@ -105,10 +103,8 @@ export const TaskList = ({
         updatedTaskItems = allTaskItems.filter(
           (taskItem) =>
             parseISO(taskItem.dueDate.toString()) <= currentMonth &&
-            compareDesc(
-              parseISO(taskItem.dueDate.toString()),
-              new Date(Date.now())
-            ) !== 1
+            compareDesc(Date.parse(taskItem.dueDate.toString()), Date.now()) !==
+              1
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
@@ -119,10 +115,8 @@ export const TaskList = ({
         updatedTaskItems = allTaskItems.filter(
           (taskItem) =>
             parseISO(taskItem.dueDate.toString()) <= currentQuarter &&
-            compareDesc(
-              parseISO(taskItem.dueDate.toString()),
-              new Date(Date.now())
-            ) !== 1
+            compareDesc(Date.parse(taskItem.dueDate.toString()), Date.now()) !==
+              1
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
@@ -133,10 +127,8 @@ export const TaskList = ({
         updatedTaskItems = allTaskItems.filter(
           (taskItem) =>
             parseISO(taskItem.dueDate.toString()) <= currentYear &&
-            compareDesc(
-              parseISO(taskItem.dueDate.toString()),
-              new Date(Date.now())
-            ) !== 1
+            compareDesc(Date.parse(taskItem.dueDate.toString()), Date.now()) !==
+              1
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
@@ -144,10 +136,8 @@ export const TaskList = ({
       case 6: // all
         updatedTaskItems = allTaskItems.filter(
           (taskItem: LimitedTaskItemProps) =>
-            compareDesc(
-              parseISO(taskItem.dueDate.toString()),
-              new Date(Date.now())
-            ) !== 1
+            compareDesc(Date.parse(taskItem.dueDate.toString()), Date.now()) !==
+            1
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
