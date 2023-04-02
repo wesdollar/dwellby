@@ -6,7 +6,7 @@ import {
   Stack,
 } from "@twilio-paste/core";
 import { colors } from "~/constants/colors";
-import type { TaskItemProps } from "../types/task-item-props";
+import type { TaskItemProps } from "~/components/tasks/types/task-item-props";
 import { format, parseISO } from "date-fns";
 import { useEffect, useState } from "react";
 

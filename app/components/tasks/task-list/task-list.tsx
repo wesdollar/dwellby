@@ -8,7 +8,10 @@ import { FormPill } from "~/components/form/form-pill/form-pill";
 import { InverseCard } from "~/components/ui/inverse-card/inverse-card";
 import { Spacer } from "~/components/utilities/spacer/spacer";
 import { gutters } from "~/constants/gutters";
-import { TaskItem, type LimitedTaskItemProps } from "../task-item/task-item";
+import {
+  TaskItem,
+  type LimitedTaskItemProps,
+} from "~/components/tasks/task-item/task-item";
 import { useState, useEffect } from "react";
 import { colors } from "~/constants/colors";
 import { styled } from "@twilio-paste/styling-library";
@@ -19,6 +22,7 @@ import {
   addQuarters,
   addYears,
   compareAsc,
+  compareDesc,
 } from "date-fns";
 
 interface TaskListProps {
@@ -87,7 +91,10 @@ export const TaskList = ({
         updatedTaskItems = allTaskItems.filter(
           (taskItem) =>
             parseISO(taskItem.dueDate.toString()) <= currentWeek &&
-            new Date(taskItem.dueDate) >= new Date()
+            compareDesc(
+              parseISO(taskItem.dueDate.toString()),
+              new Date(Date.now())
+            ) !== 1
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
@@ -98,7 +105,10 @@ export const TaskList = ({
         updatedTaskItems = allTaskItems.filter(
           (taskItem) =>
             parseISO(taskItem.dueDate.toString()) <= currentMonth &&
-            new Date(taskItem.dueDate) >= new Date()
+            compareDesc(
+              parseISO(taskItem.dueDate.toString()),
+              new Date(Date.now())
+            ) !== 1
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
@@ -109,7 +119,10 @@ export const TaskList = ({
         updatedTaskItems = allTaskItems.filter(
           (taskItem) =>
             parseISO(taskItem.dueDate.toString()) <= currentQuarter &&
-            new Date(taskItem.dueDate) >= new Date()
+            compareDesc(
+              parseISO(taskItem.dueDate.toString()),
+              new Date(Date.now())
+            ) !== 1
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
@@ -120,14 +133,21 @@ export const TaskList = ({
         updatedTaskItems = allTaskItems.filter(
           (taskItem) =>
             parseISO(taskItem.dueDate.toString()) <= currentYear &&
-            new Date(taskItem.dueDate) >= new Date()
+            compareDesc(
+              parseISO(taskItem.dueDate.toString()),
+              new Date(Date.now())
+            ) !== 1
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
         break;
       case 6: // all
         updatedTaskItems = allTaskItems.filter(
-          (taskItem) => new Date(taskItem.dueDate) >= new Date()
+          (taskItem: LimitedTaskItemProps) =>
+            compareDesc(
+              parseISO(taskItem.dueDate.toString()),
+              new Date(Date.now())
+            ) !== 1
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
