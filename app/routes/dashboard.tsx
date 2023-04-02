@@ -85,6 +85,12 @@ export const action = async ({ request }: ActionArgs) => {
   }
 
   try {
+    const testDate = Date.parse(
+      `${body?.get("year")}-${body?.get("month")}-${body?.get("day")}/`
+    ).toLocaleString();
+
+    console.log("testDate", testDate);
+
     const taskItem = await prisma.taskItem.create({
       data: {
         userId,
