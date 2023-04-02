@@ -10,7 +10,7 @@ import { CreateTasksButton } from "~/components/tasks/create-tasks-button/create
 import { PageWrapper } from "~/components/utilities/page-wrapper/page-wrapper";
 import { db } from "~/utils/db.server";
 import { json, LoaderArgs, type ActionArgs } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useActionData, useLoaderData } from "@remix-run/react";
 import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
 import { gutters } from "~/constants/gutters";
 import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
@@ -121,6 +121,10 @@ type UserWithTasks = User & { taskItems: TaskItemProps[] };
 export const Dashboard = () => {
   const layoutGridGutters = ["space10", "space30", "space60"] as Space;
   const userObject = useLoaderData() as unknown as UserWithTasks;
+  const actionResponse = useActionData();
+
+  console.error(JSON.stringify(actionResponse, null, 2));
+
   const { taskItems } = userObject || [];
 
   useEffect(() => {
