@@ -39,7 +39,7 @@ export const CreateTaskForm = () => {
 
   useEffect(() => {
     function getDaysInMonth(year: number, month: number) {
-      return new Date(year, month, 0).getDate();
+      return 30;
     }
 
     function getDaysOptions(year: number, month: number) {
