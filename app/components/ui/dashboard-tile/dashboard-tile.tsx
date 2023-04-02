@@ -1,5 +1,5 @@
 import { Box, Heading, Text } from "@twilio-paste/core";
-import { InverseCard } from "../inverse-card/inverse-card";
+import { ColoredCard } from "../cards/colored-card/colored-card";
 
 interface DashboardTileProps {
   variant: string;
@@ -16,14 +16,14 @@ export const DashboardTile = ({
 
   return (
     <Box marginBottom={"space100"} textAlign={"center"}>
-      <InverseCard variant={variant}>
+      <ColoredCard variant={variant}>
         <Heading as="h3" variant="heading50">
           {title}
         </Heading>
         <Text as="p" variant="paragraph30" color={"colorText"}>
           {count}
         </Text>
-      </InverseCard>
+      </ColoredCard>
     </Box>
   );
 };

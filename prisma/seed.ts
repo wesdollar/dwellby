@@ -32,6 +32,7 @@ export async function seed() {
 
   const users = [
     {
+      name: "Wes",
       email: process.env.SEED_EMAIL_WES,
       password: await hash(
         process.env.SEED_PASSWORD_WES as string,
@@ -70,6 +71,7 @@ export async function seed() {
       },
     },
     {
+      name: "Lulu",
       email: process.env.SEED_EMAIL_LUNA,
       password: await hash(
         process.env.SEED_PASSWORD_LUNA as string,

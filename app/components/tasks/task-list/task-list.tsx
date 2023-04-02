@@ -85,7 +85,9 @@ export const TaskList = ({
         currentWeek = addWeeks(Date.now(), 1);
 
         updatedTaskItems = allTaskItems.filter(
-          (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentWeek
+          (taskItem) =>
+            parseISO(taskItem.dueDate.toString()) <= currentWeek &&
+            new Date(taskItem.dueDate) >= new Date()
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
@@ -94,7 +96,9 @@ export const TaskList = ({
         currentMonth = addMonths(Date.now(), 1);
 
         updatedTaskItems = allTaskItems.filter(
-          (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentMonth
+          (taskItem) =>
+            parseISO(taskItem.dueDate.toString()) <= currentMonth &&
+            new Date(taskItem.dueDate) >= new Date()
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
@@ -103,7 +107,9 @@ export const TaskList = ({
         currentQuarter = addQuarters(Date.now(), 1);
 
         updatedTaskItems = allTaskItems.filter(
-          (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentQuarter
+          (taskItem) =>
+            parseISO(taskItem.dueDate.toString()) <= currentQuarter &&
+            new Date(taskItem.dueDate) >= new Date()
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
@@ -112,18 +118,24 @@ export const TaskList = ({
         currentYear = addYears(Date.now(), 1);
 
         updatedTaskItems = allTaskItems.filter(
-          (taskItem) => parseISO(taskItem.dueDate.toString()) <= currentYear
+          (taskItem) =>
+            parseISO(taskItem.dueDate.toString()) <= currentYear &&
+            new Date(taskItem.dueDate) >= new Date()
         );
 
         sortToStateByDate(updatedTaskItems, setTaskItems);
         break;
       case 6: // all
-        setTaskItems(allTaskItems);
+        updatedTaskItems = allTaskItems.filter(
+          (taskItem) => new Date(taskItem.dueDate) >= new Date()
+        );
+
+        sortToStateByDate(updatedTaskItems, setTaskItems);
         break;
       default:
         setTaskItems(allTaskItems);
     }
-  }, [activeToken]);
+  }, [activeToken, taskItemsFromProps]);
 
   const filterTokens = [
     { id: 1, name: "Day" },

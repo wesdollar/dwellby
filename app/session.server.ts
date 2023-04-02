@@ -24,14 +24,12 @@ export async function getSession(request: Request) {
   return session;
 }
 
-export async function getUserId(
-  request: Request
-): Promise<User["id"] | boolean> {
+export async function getUserId(request: Request): Promise<User["id"]> {
   const session = await getSession(request);
   const userId = session.get(USER_SESSION_KEY) as User["id"] | undefined;
 
   if (!userId) {
-    return false;
+    return 0;
   }
 
   return userId;

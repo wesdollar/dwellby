@@ -88,8 +88,14 @@ export const CreateTaskForm = () => {
     { value: "12", label: "December" },
   ];
 
+  const createTaskFormId = "create-task-form";
+
+  const handleOnSubmit = () => {
+    setLabels([]);
+  };
+
   return (
-    <Form method="post" onSubmit={() => setLabels([])}>
+    <Form method="post" id={createTaskFormId} onSubmit={() => handleOnSubmit()}>
       <Box>
         <InverseCard>
           <Box>

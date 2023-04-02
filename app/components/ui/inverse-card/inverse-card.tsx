@@ -11,15 +11,15 @@ const StyledCard = styled.div(
     borderColor: "red",
     borderRadius: "8px",
     padding: "32px",
-    color: colors.text.white,
+    color: colors.text.black,
     maxWidth: "100%",
 
     h3: {
-      color: colors.text.white,
+      color: colors.text.black,
     },
 
     p: {
-      color: colors.text.white,
+      color: colors.text.black,
       fontWeight: "bold",
     },
 
