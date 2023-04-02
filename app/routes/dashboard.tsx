@@ -92,9 +92,9 @@ export const action = async ({ request }: ActionArgs) => {
         note: (body?.get("task_notes") as string) || "No notes",
         estimatedCost: (body?.get("estimated_cost") as string) || "0.00",
         effortId: 1,
-        dueDate: new Date(
+        dueDate: Date.parse(
           `${body?.get("month")}/${body?.get("day")}/${body?.get("year")}`
-        ),
+        ).toLocaleString(),
         labels: {
           create: labelsData,
         },
