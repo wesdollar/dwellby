@@ -10,7 +10,8 @@ import { CreateTasksButton } from "~/components/tasks/create-tasks-button/create
 import { PageWrapper } from "~/components/utilities/page-wrapper/page-wrapper";
 import { db } from "~/utils/db.server";
 import { json, LoaderArgs, type ActionArgs } from "@remix-run/node";
-import { useActionData, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
+import { parseISO, fromUnixTime } from "date-fns";
 import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
 import { gutters } from "~/constants/gutters";
 import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
@@ -85,11 +86,10 @@ export const action = async ({ request }: ActionArgs) => {
   }
 
   try {
-    const testDate = Date.parse(
+    const timestamp = Date.parse(
       `${body?.get("year")}-${body?.get("month")}-${body?.get("day")}/`
-    ).toLocaleString();
-
-    console.log("testDate", testDate);
+    );
+    const testDate = fromUnixTime(Math.floor(timestamp / 1000));
 
     const taskItem = await prisma.taskItem.create({
       data: {
@@ -98,7 +98,7 @@ export const action = async ({ request }: ActionArgs) => {
         note: (body?.get("task_notes") as string) || "No notes",
         estimatedCost: (body?.get("estimated_cost") as string) || "0.00",
         effortId: 1,
-        dueDate: "2023-08-01T00:00:00.000Z",
+        dueDate: testDate, // "2023-08-01T00:00:00.000Z",
         labels: {
           create: labelsData,
         },
@@ -125,15 +125,9 @@ type UserWithTasks = User & { taskItems: TaskItemProps[] };
 export const Dashboard = () => {
   const layoutGridGutters = ["space10", "space30", "space60"] as Space;
   const userObject = useLoaderData() as unknown as UserWithTasks;
-  const actionResponse = useActionData();
-
-  console.error(JSON.stringify(actionResponse, null, 2));
-
   const { taskItems } = userObject || [];
 
   useEffect(() => {
-    console.log("taskItems", taskItems);
-
     const form = document.querySelector("#create-task-form") as HTMLFormElement;
     const inputs = form?.querySelectorAll<
       HTMLInputElement | HTMLTextAreaElement
