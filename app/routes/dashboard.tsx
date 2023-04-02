@@ -11,7 +11,7 @@ import { PageWrapper } from "~/components/utilities/page-wrapper/page-wrapper";
 import { db } from "~/utils/db.server";
 import { json, LoaderArgs, type ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { parseISO, fromUnixTime } from "date-fns";
+import { fromUnixTime } from "date-fns";
 import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
 import { gutters } from "~/constants/gutters";
 import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
@@ -89,16 +89,16 @@ export const action = async ({ request }: ActionArgs) => {
     const timestamp = Date.parse(
       `${body?.get("year")}-${body?.get("month")}-${body?.get("day")}/`
     );
-    const testDate = fromUnixTime(Math.floor(timestamp / 1000));
+    const parsedDueDate = fromUnixTime(Math.floor(timestamp / 1000));
 
     const taskItem = await prisma.taskItem.create({
       data: {
         userId,
-        title: (body?.get("task_title") as string) || "Untitled Task",
-        note: (body?.get("task_notes") as string) || "No notes",
-        estimatedCost: (body?.get("estimated_cost") as string) || "0.00",
-        effortId: 1,
-        dueDate: testDate, // "2023-08-01T00:00:00.000Z",
+        title: (body?.get("task_title") as string) || "",
+        note: (body?.get("task_notes") as string) || "",
+        estimatedCost: (body?.get("estimated_cost") as string) || "",
+        effortId: parseInt((body?.get("task_effort") as string) || "1"),
+        dueDate: parsedDueDate,
         labels: {
           create: labelsData,
         },
