@@ -36,7 +36,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     console.log(error);
 
     throw new Response("hit the loader error boundary", {
-      status: 418,
+      status: 420,
     });
   }
 
