@@ -5,18 +5,20 @@ interface DashboardTileProps {
   variant: string;
   title: string;
   count: number;
+  padding: string[];
 }
 
 export const DashboardTile = ({
   variant,
   title,
   count,
+  padding,
 }: DashboardTileProps) => {
   // TODO: check into marginBottom here
 
   return (
     <Box marginBottom={"space100"} textAlign={"center"}>
-      <ColoredCard variant={variant}>
+      <ColoredCard variant={variant} padding={padding}>
         <Heading as="h3" variant="heading50">
           {title}
         </Heading>

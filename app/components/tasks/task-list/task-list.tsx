@@ -28,6 +28,8 @@ import {
 interface TaskListProps {
   taskItems: LimitedTaskItemProps[];
   title?: string;
+  userId: number;
+  handleModalOpen?: (taskId: number) => void;
 }
 
 const StyledEmptyStateMessage = styled.div({
@@ -53,6 +55,8 @@ const sortToStateByDate = (
 export const TaskList = ({
   taskItems: taskItemsFromProps,
   title,
+  userId,
+  handleModalOpen = () => {},
 }: TaskListProps) => {
   const weeklyFilterValue = 2;
   const [activeToken, setActiveToken] = useState(weeklyFilterValue);
@@ -188,7 +192,7 @@ export const TaskList = ({
 
         <Spacer
           height={[
-            gutters.smBreakpoint.md,
+            gutters.smBreakpoint.lg,
             gutters.mdBreakpoint.lg,
             gutters.lgBreakpoint.sm,
           ]}
@@ -202,9 +206,11 @@ export const TaskList = ({
                 title={title}
                 dueDate={dueDate}
                 labels={labels}
-                taskId={id}
+                id={id}
                 statusId={statusId}
                 estimatedCost={estimatedCost}
+                handleOnClick={handleModalOpen}
+                userId={userId}
               />
             )
           )

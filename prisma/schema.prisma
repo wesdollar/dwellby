@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
+  provider     = "sqlite" // mysql
   url          = env("DATABASE_URL")
   relationMode = "prisma"
 }

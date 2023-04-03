@@ -2,25 +2,43 @@
 import { Box } from "@twilio-paste/core/box";
 import { HorizontalLogo } from "~/components/assets/logos/horizontal-logo";
 import { Spacer } from "../components/utilities/spacer/spacer";
-import { Column, Flex, Grid, Heading } from "@twilio-paste/core";
+import {
+  Button,
+  Column,
+  Flex,
+  Grid,
+  Heading,
+  Modal,
+  ModalBody,
+  ModalFooter,
+  ModalFooterActions,
+  ModalHeader,
+  ModalHeading,
+} from "@twilio-paste/core";
 import { TaskList } from "~/components/tasks/task-list/task-list";
 import type { Space } from "@twilio-paste/style-props";
 import { UserProfileBox } from "~/components/profiles/user-profile-box/user-profile-box";
-import { CreateTasksButton } from "~/components/tasks/create-tasks-button/create-tasks-button";
 import { PageWrapper } from "~/components/utilities/page-wrapper/page-wrapper";
 import { db } from "~/utils/db.server";
-import { json, LoaderArgs, type ActionArgs } from "@remix-run/node";
+import { json, type LoaderArgs, type ActionArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { fromUnixTime } from "date-fns";
 import { DashboardTile } from "~/components/ui/dashboard-tile/dashboard-tile";
 import { gutters } from "~/constants/gutters";
-import { CreateTaskForm } from "~/components/tasks/create-task-form/create-task-form";
-import { PrismaClient, User } from "@prisma/client";
+import {
+  TaskItemForm,
+  type TaskDataWithLabels,
+} from "~/components/tasks/task-item-form/task-item-form";
+import { PrismaClient, type User } from "@prisma/client";
 import type { LabelProps } from "~/components/tasks/types/label-props";
 import { type TaskItemProps } from "~/components/tasks/types/task-item-props";
 import { requireUserId } from "~/session.server";
 import { InverseCard } from "~/components/ui/inverse-card/inverse-card";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { find } from "lodash";
+import { clearTaskItemFormInputFields } from "~/helpers/clear-task-item-form-input-fields";
+import { formContext } from "~/constants/form-context";
+import { taskItemFormConstants } from "~/components/tasks/task-item-form/task-item-form.constants";
 
 type LabelData = Pick<LabelProps, "name">;
 
@@ -37,7 +55,7 @@ export const loader = async ({ request }: LoaderArgs) => {
     console.log(error);
 
     throw new Response("hit the loader error boundary", {
-      status: 420,
+      status: 418,
     });
   }
 
@@ -91,13 +109,46 @@ export const action = async ({ request }: ActionArgs) => {
     );
     const parsedDueDate = fromUnixTime(Math.floor(timestamp / 1000));
 
-    const taskItem = await prisma.taskItem.create({
+    let taskItem;
+    const taskId = body?.get("task-id") as string;
+
+    console.log("task id", taskId);
+    console.log("form context", body?.get("form-context"));
+
+    if (body?.get("form-context") === formContext.edit && taskId) {
+      console.log("updating task item");
+
+      taskItem = await prisma.taskItem.update({
+        where: {
+          id: parseInt(taskId),
+        },
+        data: {
+          userId,
+          title: (body?.get("task_title") as string) || "",
+          note: (body?.get("task_notes") as string) || "",
+          estimatedCost: (body?.get("estimated_cost") as string) || "",
+          effortId:
+            parseInt(body?.get(taskItemFormConstants.taskEffort) as string) ||
+            3,
+          dueDate: parsedDueDate,
+          labels: {
+            create: labelsData,
+          },
+          statusId: 1,
+        },
+      });
+
+      return json(taskItem);
+    }
+
+    taskItem = await prisma.taskItem.create({
       data: {
         userId,
         title: (body?.get("task_title") as string) || "",
         note: (body?.get("task_notes") as string) || "",
         estimatedCost: (body?.get("estimated_cost") as string) || "",
-        effortId: 1,
+        effortId:
+          parseInt(body?.get(taskItemFormConstants.taskEffort) as string) || 3,
         dueDate: parsedDueDate,
         labels: {
           create: labelsData,
@@ -123,19 +174,33 @@ type MetricTiles = MetricTilesObject[];
 type UserWithTasks = User & { taskItems: TaskItemProps[] };
 
 export const Dashboard = () => {
-  const layoutGridGutters = ["space10", "space30", "space60"] as Space;
+  const layoutGridGutters = ["space60", "space30", "space60"] as Space;
   const userObject = useLoaderData() as unknown as UserWithTasks;
   const { taskItems } = userObject || [];
+  const [selectedTaskData, setSelectedTaskData] =
+    useState<TaskDataWithLabels>();
+  const [isTaskItemModalOpen, setIsTaskItemModalOpen] = useState(false);
+  const handleTaskModalClose = () => {
+    const editTaskButton = document.getElementById(
+      "edit-task-button"
+    ) as HTMLButtonElement;
+
+    editTaskButton.click();
+
+    setIsTaskItemModalOpen(false);
+    clearTaskItemFormInputFields();
+    setSelectedTaskData(undefined);
+  };
+
+  const handleTaskModalOpen = (taskId: number) => {
+    const selectedTaskId = find(taskItems, (task) => taskId === task.id);
+
+    setSelectedTaskData(selectedTaskId);
+    setIsTaskItemModalOpen(true);
+  };
 
   useEffect(() => {
-    const form = document.querySelector("#create-task-form") as HTMLFormElement;
-    const inputs = form?.querySelectorAll<
-      HTMLInputElement | HTMLTextAreaElement
-    >("input, textarea");
-
-    inputs?.forEach((input) => {
-      input.value = "";
-    });
+    clearTaskItemFormInputFields();
   }, [taskItems]);
 
   const allTasksCount = taskItems.length || 0;
@@ -171,6 +236,9 @@ export const Dashboard = () => {
     },
   ];
 
+  const mainColumnBreakpoints = [12, 12, 4];
+  const viewEditTaskModalHeading = "view-edit-task-modal-heading";
+
   return (
     <>
       <PageWrapper>
@@ -182,33 +250,21 @@ export const Dashboard = () => {
           ]}
           marginBottom={gutters.utility.md}
         >
-          <Grid gutter={layoutGridGutters}>
-            <Column>
+          <Grid gutter={layoutGridGutters} vertical={[false, false, false]}>
+            <Column span={[3, 6, 6]}>
               <HorizontalLogo />
             </Column>
-            <Column>
+            <Column span={[9, 6, 6]}>
               <Flex vAlignContent={"center"} height="100%">
                 <Flex
                   vAlignContent={"center"}
                   grow
                   hAlignContent={"right"}
-                  basis="83%"
+                  // basis={["50%", "80px", "83%"]}
+                  basis={"100%"}
                   height={"100%"}
                 >
-                  <UserProfileBox userObject={userObject} />
-                </Flex>
-                <Flex
-                  vAlignContent={"center"}
-                  hAlignContent={"right"}
-                  grow
-                  basis={"17%"}
-                  height={"100%"}
-                >
-                  <CreateTasksButton
-                    display={"flex"}
-                    alignItems="center"
-                    justifyContent={"right"}
-                  />
+                  <UserProfileBox variant="sm" userObject={userObject} />
                 </Flex>
               </Flex>
             </Column>
@@ -226,13 +282,21 @@ export const Dashboard = () => {
             gutters.lgBreakpoint.xl,
           ]}
         >
-          <Grid gutter={layoutGridGutters}>
-            <Column span={4}>
-              <CreateTaskForm />
+          <Grid gutter={layoutGridGutters} vertical={[true, true, false]}>
+            <Column span={mainColumnBreakpoints}>
+              <TaskItemForm
+                taskModalIsOpen={isTaskItemModalOpen}
+                taskData={selectedTaskData}
+                formContext={formContext.create}
+              />
             </Column>
-            <Column span={4}>
+            <Column span={mainColumnBreakpoints}>
               {taskItems.length ? (
-                <TaskList taskItems={taskItems} />
+                <TaskList
+                  taskItems={taskItems}
+                  userId={userObject.id}
+                  handleModalOpen={handleTaskModalOpen}
+                />
               ) : (
                 <InverseCard>
                   <Heading variant={"heading30"} as="h3">
@@ -241,7 +305,7 @@ export const Dashboard = () => {
                 </InverseCard>
               )}
             </Column>
-            <Column span={4}>
+            <Column span={mainColumnBreakpoints}>
               <Grid gutter={layoutGridGutters}>
                 {metricTiles.map(({ id, count, title, variant }) => (
                   <Column key={id} span={6}>
@@ -249,6 +313,7 @@ export const Dashboard = () => {
                       count={count}
                       title={title}
                       variant={variant}
+                      padding={["sm", "md", "lg"]}
                     />
                   </Column>
                 ))}
@@ -257,6 +322,42 @@ export const Dashboard = () => {
           </Grid>
         </Box>
       </PageWrapper>
+      <Modal
+        ariaLabelledby={viewEditTaskModalHeading}
+        isOpen={isTaskItemModalOpen}
+        onDismiss={handleTaskModalClose}
+        size="default"
+      >
+        <ModalHeader>
+          <ModalHeading as="h3" id={viewEditTaskModalHeading}>
+            Task Item
+          </ModalHeading>
+        </ModalHeader>
+        <ModalBody>
+          <TaskItemForm
+            taskModalIsOpen={isTaskItemModalOpen}
+            taskData={selectedTaskData}
+            formContext={formContext.edit}
+          />
+        </ModalBody>
+        <Spacer
+          height={[
+            gutters.smBreakpoint.lg,
+            gutters.mdBreakpoint.md,
+            gutters.lgBreakpoint.md,
+          ]}
+        />
+        <ModalFooter style={{ marginTop: "10px" }}>
+          <ModalFooterActions>
+            <Button variant="secondary" onClick={handleTaskModalClose}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={() => handleTaskModalClose()}>
+              Save
+            </Button>
+          </ModalFooterActions>
+        </ModalFooter>
+      </Modal>
     </>
   );
 };

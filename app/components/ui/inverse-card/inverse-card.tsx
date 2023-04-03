@@ -44,6 +44,13 @@ const StyledCard = styled.div(
   },
   variant({
     variants: {
+      padding: {
+        sm: {
+          padding: "16px",
+        },
+        md: {},
+        lg: {},
+      },
       success: {
         background: colors.background.success,
       },
@@ -62,10 +69,18 @@ export interface InverseCardProps {
   children: React.ReactNode;
   variant?: string | undefined; // "success" | "error" | "brandPrimary"
   width?: string | undefined;
+  padding?: string | string[] | undefined;
 }
 
-export const InverseCard = ({ children, variant, width }: InverseCardProps) => (
+export const InverseCard = ({
+  children,
+  variant,
+  width,
+  padding,
+}: InverseCardProps) => (
   <Box width={width}>
-    <StyledCard variant={variant}>{children}</StyledCard>
+    <StyledCard variant={variant} padding={padding}>
+      {children}
+    </StyledCard>
   </Box>
 );
