@@ -15,13 +15,19 @@ export type LimitedTaskItemProps = Omit<
   "createdAt" | "updatedAt" | "note" | "estimateCost" | "effortId"
 >;
 
+type TakeItemProps = LimitedTaskItemProps & {
+  handleOnClick?: (id: number) => void;
+};
+
 export const TaskItem = ({
   title,
   dueDate,
   labels,
-  taskId,
+  id: taskId,
   statusId,
-}: LimitedTaskItemProps) => {
+  userId,
+  handleOnClick = () => {},
+}: TakeItemProps) => {
   const [formattedDueDate, setFormattedDueDate] = useState("");
 
   useEffect(
@@ -45,6 +51,8 @@ export const TaskItem = ({
         }`,
       }}
       _last={{ marginBottom: "space0" }}
+      _hover={{ cursor: "pointer" }}
+      onClick={() => handleOnClick(taskId)}
     >
       {title && (
         <Heading as="h2" variant="heading30">

@@ -19,17 +19,18 @@ interface InputWithLabelsProps {
   handleSetLabels?: React.Dispatch<React.SetStateAction<string[]>>;
   type?: string;
   required?: boolean;
+  defaultValue?: string;
 }
 
 export const InputWithLabels = ({
   inputId,
   inputLabel,
   handleOnChange = () => {},
-  value,
   labels = [],
   handleSetLabels = () => {},
   type = "text",
   required = false,
+  defaultValue = "",
 }: InputWithLabelsProps) => {
   return (
     <Box marginBottom={formBoxPadding}>
@@ -41,13 +42,11 @@ export const InputWithLabels = ({
         name={inputId}
         type={type as InputProps["type"]}
         onChange={handleOnChange}
-        value={value}
+        defaultValue={defaultValue}
         required={required}
         onKeyDown={(event) => {
           if (event.key === "Enter" || event.key === ",") {
             event.preventDefault();
-            console.log(`${event.key} was pressed`);
-            console.log(`${event.currentTarget.value}`);
 
             const eventCurrentTargetValue = event.currentTarget.value;
 

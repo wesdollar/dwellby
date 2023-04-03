@@ -1,7 +1,7 @@
 import { Box } from "@twilio-paste/core";
 import { styled, variant } from "@twilio-paste/styling-library";
 import { colors } from "~/constants/colors";
-import { InverseCardProps } from "../../inverse-card/inverse-card";
+import { type InverseCardProps } from "../../inverse-card/inverse-card";
 
 const StyledCard = styled.div(
   {
@@ -28,8 +28,13 @@ const StyledCard = styled.div(
   })
 );
 
-export const ColoredCard = ({ children, variant, width }: InverseCardProps) => (
+export const ColoredCard = ({
+  children,
+  variant,
+  width,
+  padding,
+}: InverseCardProps) => (
   <Box width={width}>
-    <StyledCard variant={variant}>{children}</StyledCard>
+    <StyledCard variant={[variant, padding]}>{children}</StyledCard>
   </Box>
 );

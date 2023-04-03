@@ -1,7 +1,7 @@
 import type { LabelProps } from "./label-props";
 
 export interface TaskItemProps {
-  id?: number;
+  id: number;
   title: string;
   note: string;
   dueDate: Date;
@@ -11,5 +11,5 @@ export interface TaskItemProps {
   createdAt: Date;
   updatedAt: Date;
   labels: LabelProps[];
-  taskId?: number;
+  userId: number;
 }

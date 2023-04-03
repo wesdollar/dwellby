@@ -4,7 +4,7 @@ export const gutters = {
   smBreakpoint: {
     sm: DarkTheme.space.space10,
     md: DarkTheme.space.space20,
-    lg: DarkTheme.space.space30,
+    lg: DarkTheme.space.space60,
   },
 
   mdBreakpoint: {

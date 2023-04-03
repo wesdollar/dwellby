@@ -5,6 +5,7 @@ interface SpacerProps {
   width?: string[];
 }
 
+// styled pass in props
 const getStyledSpacer = (height: string[], width: string[]) =>
   styled.div(
     css({

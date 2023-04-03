@@ -1,18 +1,12 @@
 import { hash } from "bcrypt";
 import { SALT_ROUNDS } from "./SALT_ROUNDS";
+import { taskStatuses } from "~/constants/task-statuses";
 
 const { PrismaClient } = require("@prisma/client");
 const db = new PrismaClient();
 
 export async function seed() {
-  const statuses = [
-    { name: "To Do" },
-    { name: "In Progress" },
-    { name: "Done" },
-    { name: "Blocked" },
-    { name: "Cancelled" },
-    { name: "On Hold" },
-  ];
+  const statuses = taskStatuses;
 
   const createdStatuses = [];
 
