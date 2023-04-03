@@ -52,7 +52,6 @@ export interface TaskDataWithLabels {
 export const TaskItemForm = ({
   taskData,
   taskModalIsOpen,
-  handleOnSelectTaskStatus,
   formContext,
 }: TaskItemFormProps) => {
   const taskNotesTextareaId = "task_notes";
@@ -68,6 +67,7 @@ export const TaskItemForm = ({
   const [selectedDay, setSelectedDay] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedEffort, setSelectedEffort] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
 
   useEffect(() => {
     if (formContext === formContextConstants.edit && taskData?.labels?.length) {
@@ -86,7 +86,11 @@ export const TaskItemForm = ({
       setSelectedEffort(taskData?.effortId.toString());
     }
 
-    if (taskData?.dueDate) {
+    if (formContext === formContextConstants.edit && taskData?.statusId) {
+      setSelectedStatus(taskData?.statusId.toString());
+    }
+
+    if (formContext === formContextConstants.edit && taskData?.dueDate) {
       const date = new Date(taskData?.dueDate);
 
       const monthFromData = date.getMonth() + 1;
@@ -167,10 +171,17 @@ export const TaskItemForm = ({
       >
         {taskData && taskModalIsOpen ? (
           <>
-            <Select onSelect={handleOnSelectTaskStatus}>
+            <Select
+              id="task_status"
+              name="task_status"
+              value={selectedStatus}
+              onChange={(event) => {
+                setSelectedStatus(event.target.value);
+              }}
+            >
               {taskStatuses.map((status) => (
                 <Option
-                  value={`${taskData.statusId}`}
+                  value={`${status.id}`}
                   key={`${taskData.id}-option-select-${formContext}`}
                 >
                   {status.name}

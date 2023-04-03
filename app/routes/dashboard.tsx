@@ -134,7 +134,7 @@ export const action = async ({ request }: ActionArgs) => {
           labels: {
             create: labelsData,
           },
-          statusId: 1,
+          statusId: parseInt(body?.get("task_status") as string) || 1,
         },
       });
 
