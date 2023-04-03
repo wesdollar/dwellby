@@ -81,8 +81,6 @@ export const TaskItemForm = ({
     }
 
     if (taskData?.effortId) {
-      console.log("EFFORT ID", taskData?.effortId);
-
       setSelectedEffort(taskData?.effortId.toString());
     }
 

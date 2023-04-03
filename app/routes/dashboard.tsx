@@ -112,31 +112,27 @@ export const action = async ({ request }: ActionArgs) => {
     let taskItem;
     const taskId = body?.get("task-id") as string;
 
-    console.log("task id", taskId);
-    console.log("form context", body?.get("form-context"));
-
     if (body?.get("form-context") === formContext.edit && taskId) {
-      console.log("updating task item");
-
-      taskItem = await prisma.taskItem.update({
-        where: {
-          id: parseInt(taskId),
-        },
-        data: {
-          userId,
-          title: (body?.get("task_title") as string) || "",
-          note: (body?.get("task_notes") as string) || "",
-          estimatedCost: (body?.get("estimated_cost") as string) || "",
-          effortId:
-            parseInt(body?.get(taskItemFormConstants.taskEffort) as string) ||
-            3,
-          dueDate: parsedDueDate,
-          labels: {
-            create: labelsData,
+      try {
+        taskItem = await prisma.taskItem.update({
+          where: {
+            id: parseInt(taskId),
           },
-          statusId: parseInt(body?.get("task_status") as string) || 1,
-        },
-      });
+          data: {
+            userId,
+            title: (body?.get("task_title") as string) || "",
+            note: (body?.get("task_notes") as string) || "",
+            estimatedCost: (body?.get("estimated_cost") as string) || "",
+            effortId:
+              parseInt(body?.get(taskItemFormConstants.taskEffort) as string) ||
+              3,
+            dueDate: parsedDueDate,
+            statusId: parseInt(body?.get("task_status") as string) || 1,
+          },
+        });
+      } catch (error) {
+        console.error(error);
+      }
 
       return json(taskItem);
     }
