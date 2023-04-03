@@ -5,19 +5,23 @@
     "dbaeumer.vscode-eslint",
     "skyran.js-jsx-snippets",
     "esbenp.prettier-vscode",
-    "msjsdiag.debugger-for-chrome",
     "eamodio.gitlens",
     "wayou.vscode-todo-highlight",
     "gruntfuggly.todo-tree",
     "jonkwheeler.styled-components-snippets",
     "shd101wyy.markdown-preview-enhanced",
-    "silvenon.mdx",
+    "unifiedjs.vscode-mdx",
     "ban.spellright",
     "prisma.prisma",
     "xyc.vscode-mdx-preview",
     "nixon.env-cmd-file-syntax",
     "arcanis.vscode-zipfs",
-    "orta.vscode-jest"
+    "orta.vscode-jest",
+    "wallabyjs.console-ninja",
+    "davidanson.vscode-markdownlint",
+    "bungcip.better-toml",
+    "ms-vsliveshare.vsliveshare",
+    "prisma.prisma"
   ],
   "unwantedRecommendations": []
 }
