@@ -112,12 +112,7 @@ export const action = async ({ request }: ActionArgs) => {
     let taskItem;
     const taskId = body?.get("task-id") as string;
 
-    console.log("task id", taskId);
-    console.log("form context", body?.get("form-context"));
-
     if (body?.get("form-context") === formContext.edit && taskId) {
-      console.log("updating task item");
-
       taskItem = await prisma.taskItem.update({
         where: {
           id: parseInt(taskId),
