@@ -80,13 +80,13 @@ export const TaskItemForm = ({
       setLabels(tempLabels);
     }
 
-    if (formContext === formContextConstants.edit && taskData?.effortId) {
+    if (taskData?.effortId) {
       console.log("EFFORT ID", taskData?.effortId);
 
       setSelectedEffort(taskData?.effortId.toString());
     }
 
-    if (formContext === formContextConstants.edit && taskData?.dueDate) {
+    if (taskData?.dueDate) {
       const date = new Date(taskData?.dueDate);
 
       const monthFromData = date.getMonth() + 1;
